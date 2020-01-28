@@ -1,2 +1,2 @@
-import { Courses } from './Courses';
+import Courses from './Courses';
 export { Courses };
