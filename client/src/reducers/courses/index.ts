@@ -7,7 +7,7 @@ export interface CourseState {
   list: Course[];
 }
 
-const initialState: CourseState = {
+export const initialState: CourseState = {
   list: [],
 };
 
