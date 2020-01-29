@@ -2,7 +2,8 @@ import React from 'react';
 import { Course } from './Courses.entities';
 import { Button } from '../shared/Button';
 import { connect } from 'react-redux';
-import { addCourse } from '../../redux/rootReducer';
+import { addCourse } from '../../actions/courses';
+import { RootState } from '../../types/root';
 
 interface Props {
   addCourse: typeof addCourse;
@@ -22,11 +23,9 @@ const Courses: React.FC<Props> = ({ addCourse, courses }) => {
   )
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    courses: state.courses.courses,
-  };
-};
+const mapStateToProps = (state: RootState) => ({
+  courses: state.courses.list,
+});
 
 const mapDispatchToProps = ({
   addCourse,

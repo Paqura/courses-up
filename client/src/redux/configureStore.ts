@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import rootReducer from './rootReducer';
+import rootReducer from '../reducers';
 
 const middleware = [...getDefaultMiddleware(), logger];
 
