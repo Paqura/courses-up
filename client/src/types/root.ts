@@ -1,7 +1,7 @@
-import { AddCourse } from "../actions/courses";
+import { CourseAction } from "../actions/courses";
 import { CourseState } from "../reducers/courses";
 
-export type RootAction = AddCourse;
+export type RootAction = CourseAction;
 
 export type RootState = {
   courses: CourseState;
