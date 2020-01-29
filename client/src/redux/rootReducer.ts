@@ -2,17 +2,27 @@ import { combineReducers } from 'redux';
 
 
 import { createAction, createReducer } from '@reduxjs/toolkit';
+import { Course } from '../components/Courses/Courses.entities';
 
-const increment = createAction('INCREMENT');
+export const addCourse = createAction('@courses/ADD', (course: Course) => ({
+  payload: { course },
+}));
 
-const counterReducer = createReducer({ count: 0 }, {
-  [increment.type]: state => ({
-    ...state,
-    count: state.count + 1,
-  }),
+interface CourseState {
+  courses: Course[];
+}
+
+const initialState: CourseState = {
+  courses: [],
+};
+
+const coursesReducer = createReducer(initialState, {
+  [addCourse.type]: (state, action) => {
+    state.courses.push(action.payload.course);
+  }
 });
 
 
 export default combineReducers({
-  counter: counterReducer,
+  courses: coursesReducer,
 });

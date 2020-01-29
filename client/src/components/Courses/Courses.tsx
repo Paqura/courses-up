@@ -1,33 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Course } from './Courses.entities';
 import { Button } from '../shared/Button';
 import { connect } from 'react-redux';
+import { addCourse } from '../../redux/rootReducer';
 
-const Courses: React.FC = (props) => {
-  const [courses, setCourses] = useState<Course[]>([
-    { id: '1', title: 'title 1', description: 'test description' },
-    { id: '2', title: 'title 2', description: 'test description 2' },
-  ]);
+interface Props {
+  addCourse: typeof addCourse;
+  courses: Course[];
+}
 
-  const addCourse = () => {
-    setCourses([...courses, { id: '3', title: 'title 3', description: 'new course' }]);
+const Courses: React.FC<Props> = ({ addCourse, courses }) => {
+  const add = () => {
+    addCourse({ id: '1', title: 'test1', description: 'fsdfdsfsdf' });
   };
-
-  console.log(props);
 
   return (
     <ul>
       {courses.length > 0 && courses.map(course => <li key={course.id}>{course.title}</li>)}
-      <Button text="Click me" onClick={addCourse} />
+      <Button text="Click me" onClick={add} />
     </ul>
   )
 };
 
-const mapStateToProps = (state: { counter: { count: number } }) => {
+const mapStateToProps = (state: any) => {
   return {
-    count: state.counter.count,
+    courses: state.courses.courses,
   };
 };
 
-export default connect(mapStateToProps)(Courses);
+const mapDispatchToProps = ({
+  addCourse,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Courses);
 
