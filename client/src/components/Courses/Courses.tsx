@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Course } from './Courses.entities';
 import { Button } from '../shared/Button';
 import { connect } from 'react-redux';
-import { addCourse, deleteCourse } from '../../actions/courses';
+import { addCourse, changeStatus, deleteCourse } from '../../actions/courses';
 import { RootState } from '../../types/root';
 import { List } from './List';
 import uuid from 'uuid';
@@ -10,11 +10,12 @@ import { createCourse } from '../../utils/course';
 
 interface Props {
   addCourse: typeof addCourse;
+  changeStatus: typeof changeStatus;
   deleteCourse: typeof deleteCourse;
   courses: Course[];
 }
 
-const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses }) => {
+const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStatus }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const add = () => {
@@ -30,7 +31,7 @@ const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses }) => {
 
   return (
     <>
-      <List items={courses} remove={deleteCourse} />
+      <List items={courses} remove={deleteCourse} changeStatus={changeStatus} />
 
       <input ref={inputRef} type="text" placeholder="Enter a card title" />
       <Button onClick={add} text="Add card" />
@@ -45,6 +46,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = ({
   addCourse,
   deleteCourse,
+  changeStatus,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Courses);
