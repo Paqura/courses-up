@@ -1,27 +1,19 @@
 import React from 'react';
-
-interface DropdownItem {
-  action?(): void;
-  id: string;
-  title: string;
-}
+import { DropdownItem } from './DropdownItem/DropdownItem';
+import { DropdownItemEntity } from './Dropdown.entities';
+import { GenericDropdown } from './Dropdown.styled';
 
 interface Props {
-  items: DropdownItem[];
+  items: DropdownItemEntity[];
 }
 
 const Drowpdown: React.FC<Props> = ({ items }) => {
   return (
-    <div>
+    <GenericDropdown>
       {items.map(item =>
-        <li
-          key={item.id}
-          onClick={item.action}
-        >
-          {item.title}
-        </li>
+        <DropdownItem key={item.id} data={item} />
       )}
-    </div>
+    </GenericDropdown>
   )
 };
 

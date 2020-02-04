@@ -53,13 +53,15 @@ const Item: React.FC<Props> = ({ remove, item, changeStatus }) => {
           data-id="change"
           text="Status"
           onClick={toggleDropdown}
-        />
+        >
+          {isDropdownShown && (
+            <Dropdown
+              items={dropdownItems}
+            />
+          )}
+        </Button>
 
-        {isDropdownShown && (
-          <Dropdown
-            items={dropdownItems}
-          />
-        )}
+
       </Controls>
     </CourseItem>
   );

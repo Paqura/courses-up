@@ -1,12 +1,17 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, ReactNode } from 'react';
+import { GenericButton } from './Button.styled';
 
 interface Props {
+  children?: ReactNode;
   text: string;
   onClick(evt: SyntheticEvent<HTMLButtonElement>): void;
 }
 
-export const Button: React.FC<Props> = ({ text, onClick }: Props) => {
+export const Button: React.FC<Props> = ({ text, onClick, children }: Props) => {
   return (
-    <button onClick={onClick}>{text}</button>
+    <GenericButton onClick={onClick}>
+      {text}
+      {children}
+    </GenericButton>
   )
 };
