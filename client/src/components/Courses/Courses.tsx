@@ -1,12 +1,14 @@
 import React, { useRef } from 'react';
-import { Course } from './Courses.entities';
+import { Course, CourseStatus } from './Courses.entities';
 import { Button } from '../shared/Button';
 import { connect } from 'react-redux';
 import { addCourse, changeStatus, deleteCourse } from '../../actions/courses';
 import { RootState } from '../../types/root';
 import { List } from './List';
 import uuid from 'uuid';
-import { createCourse } from '../../utils/course';
+import { createCourse, getCourses } from '../../utils/course';
+import { Table } from './Courses.styled';
+import { capitalize } from '../../utils/capitalize';
 
 interface Props {
   addCourse: typeof addCourse;
@@ -29,9 +31,32 @@ const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStat
     }
   };
 
+  const getCoursesByStatus = getCourses(courses);
+
   return (
     <>
-      <List items={courses} remove={deleteCourse} changeStatus={changeStatus} />
+      <Table>
+        <List
+          title={capitalize(CourseStatus.Open)}
+          items={getCoursesByStatus(CourseStatus.Open)}
+          remove={deleteCourse}
+          changeStatus={changeStatus}
+        />
+
+        <List
+          title={capitalize(CourseStatus.Progress)}
+          items={getCoursesByStatus(CourseStatus.Progress)}
+          remove={deleteCourse}
+          changeStatus={changeStatus}
+        />
+
+        <List
+          title={capitalize(CourseStatus.Done)}
+          items={getCoursesByStatus(CourseStatus.Done)}
+          remove={deleteCourse}
+          changeStatus={changeStatus}
+        />
+      </Table>
 
       <input ref={inputRef} type="text" placeholder="Enter a card title" />
       <Button onClick={add} text="Add card" />

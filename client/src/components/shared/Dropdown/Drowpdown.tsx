@@ -1,9 +1,26 @@
 import React from 'react';
 
-const Drowpdown = () => {
+interface DropdownItem {
+  action?(): void;
+  id: string;
+  title: string;
+}
+
+interface Props {
+  items: DropdownItem[];
+}
+
+const Drowpdown: React.FC<Props> = ({ items }) => {
   return (
     <div>
-      Dropdown
+      {items.map(item =>
+        <li
+          key={item.id}
+          onClick={item.action}
+        >
+          {item.title}
+        </li>
+      )}
     </div>
   )
 };

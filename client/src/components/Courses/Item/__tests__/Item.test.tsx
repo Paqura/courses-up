@@ -2,6 +2,7 @@ import React from 'react';
 import Item from '../Item';
 import { shallow, ShallowWrapper } from 'enzyme';
 import { Course, CourseStatus } from '../../Courses.entities';
+import { Status } from '../Item.styled';
 
 const course: Course = {
   id: 'testId',
@@ -31,13 +32,6 @@ describe('Item', () => {
   });
 
   it('must have a class open by default', () => {
-    expect(wrapper?.find('span').prop('className')).toEqual('open');
-  });
-
-  it('should change status after click to button', () => {
-    const button = wrapper?.find('[data-id="change"]');
-    button?.simulate('click');
-
-    expect(changeCb).toBeCalledTimes(1);
+    expect(wrapper?.find(Status).prop('className')).toEqual('open');
   });
 });
