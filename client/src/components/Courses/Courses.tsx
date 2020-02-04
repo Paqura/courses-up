@@ -35,6 +35,9 @@ const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStat
 
   return (
     <>
+      <input ref={inputRef} type="text" placeholder="Enter a card title" />
+      <Button onClick={add} text="Add card" />
+
       <Table>
         <List
           title={capitalize(CourseStatus.Open)}
@@ -57,9 +60,6 @@ const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStat
           changeStatus={changeStatus}
         />
       </Table>
-
-      <input ref={inputRef} type="text" placeholder="Enter a card title" />
-      <Button onClick={add} text="Add card" />
     </>
   )
 };
