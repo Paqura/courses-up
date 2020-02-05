@@ -20,6 +20,10 @@ interface Props {
 const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStatus }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const submit = (evt: any) => {
+    evt.preventDefault();
+  };
+
   const add = () => {
     const value = inputRef.current?.value ?? null;
 
@@ -35,8 +39,10 @@ const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStat
 
   return (
     <>
-      <input ref={inputRef} type="text" placeholder="Enter a card title" />
-      <Button onClick={add} text="Add card" />
+      <form onSubmit={submit}>
+        <input ref={inputRef} type="text" placeholder="Enter a card title" />
+        <Button onClick={add} text="Add card" />
+      </form>
 
       <Table>
         <List

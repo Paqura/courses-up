@@ -6,8 +6,10 @@ export const CourseList = styled.ul`
   list-style-type: none;
   max-width: 240px;
   height: fit-content;
+`;
 
-  border: 1px solid;
+export const Header = styled.header`
+  background-color: #c8c8c8;
 `;
 
 export const Title = styled.h3`

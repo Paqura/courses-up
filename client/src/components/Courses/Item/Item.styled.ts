@@ -18,7 +18,7 @@ export const Controls = styled.div`
 
 export const CourseItem = styled.li`
   padding: 16px;
-  box-shadow: 1px 8px 13px 2px #0000004d;
+  border: 1px solid;
 
   &:not(:last-child) {
     margin-bottom: 16px;
