@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import { Course, CourseStatus } from '../Courses.entities';
-import { Button } from '../../shared/Button';
-import { Controls, Status, CourseItem } from './Item.styled';
-import { Dropdown } from '../../shared/Dropdown';
+import { Controls, CourseItem } from './Item.styled';
+import { Button } from '@material-ui/core';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 interface Props {
   changeStatus(id: string, status: CourseStatus): void;
@@ -12,13 +13,15 @@ interface Props {
 
 const Item: React.FC<Props> = ({ remove, item, changeStatus }) => {
   const [isDropdownShown, setIsDropdownShown] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const onDelete = () => {
     remove(item.id);
   };
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (evt: MouseEvent<HTMLButtonElement>) => {
     setIsDropdownShown(!isDropdownShown);
+    setAnchorEl(evt.currentTarget);
   };
 
   const onChangeStatus = (status: CourseStatus) => {
@@ -26,7 +29,7 @@ const Item: React.FC<Props> = ({ remove, item, changeStatus }) => {
     setIsDropdownShown(false);
   };
 
-  const dropdownItems = [
+  const MENU_ITEMS = [
     { id: '1', title: CourseStatus.Open, action: () => onChangeStatus(CourseStatus.Open) },
     { id: '2', title: CourseStatus.Progress, action: () => onChangeStatus(CourseStatus.Progress) },
     { id: '3', title: CourseStatus.Done, action: () => onChangeStatus(CourseStatus.Done) },
@@ -36,32 +39,21 @@ const Item: React.FC<Props> = ({ remove, item, changeStatus }) => {
     <CourseItem>
       {item.title}
 
-      <Status
-        className={item.status}
-        status={item.status}
-      >
-        status: {item.status}
-      </Status>
-
       <Controls>
-        <Button
-          text="Delete"
-          onClick={onDelete}
-        />
+        <Button onClick={onDelete} color="secondary" variant="outlined" size="small">Delete</Button>
+        <Button onClick={toggleDropdown} variant="outlined" size="small" style={{ marginLeft: '16px' }}>Status</Button>
 
-        <Button
-          data-id="change"
-          text="Status"
-          onClick={toggleDropdown}
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={isDropdownShown}
+          onClose={toggleDropdown}
         >
-          {isDropdownShown && (
-            <Dropdown
-              items={dropdownItems}
-            />
-          )}
-        </Button>
-
-
+          {MENU_ITEMS.map(item => (
+            <MenuItem key={item.id} onClick={item.action}>{item.title}</MenuItem>
+          ))}
+        </Menu>
       </Controls>
     </CourseItem>
   );

@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { Course, CourseStatus } from './Courses.entities';
-import { Button } from '../shared/Button';
 import { connect } from 'react-redux';
 import { addCourse, changeStatus, deleteCourse } from '../../actions/courses';
 import { RootState } from '../../types/root';
@@ -9,8 +8,10 @@ import uuid from 'uuid';
 import { createCourse, getCourses } from '../../utils/course';
 import { Table } from './Courses.styled';
 import { capitalize } from '../../utils/capitalize';
-import { Form, Field } from '../shared/Form';
+import { Form } from '../shared/Form';
 import { getCoursesList } from '../../selectors/coursesSelectors';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 interface Props {
   addCourse: typeof addCourse;
@@ -40,13 +41,17 @@ const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStat
   return (
     <>
       <Form>
-        <Field ref={inputRef} placeholder="Enter a card title" />
-        <Button onClick={add} text="Add card" />
+        <TextField inputRef={inputRef} label="Enter a card title" />
+
+        <Button onClick={add} variant="contained" color="primary">
+          Add card
+        </Button>
       </Form>
 
       <Table>
         {STATUSES.map(status => (
           <List
+            key={status}
             title={capitalize(status)}
             items={getCoursesByStatus(status)}
             remove={deleteCourse}

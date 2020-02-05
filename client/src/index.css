@@ -1,0 +1,9 @@
+body {
+  border: 6px dashed;
+    padding: 32px;
+    border-color: #c3d7ff;
+    display: flex;
+    max-width: 100%;
+    flex-direction: column;
+    height: calc(100vh - (64px + 28px));
+}
