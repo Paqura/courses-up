@@ -9,6 +9,8 @@ import uuid from 'uuid';
 import { createCourse, getCourses } from '../../utils/course';
 import { Table } from './Courses.styled';
 import { capitalize } from '../../utils/capitalize';
+import { Form, Field } from '../shared/Form';
+import { getCoursesList } from '../../selectors/coursesSelectors';
 
 interface Props {
   addCourse: typeof addCourse;
@@ -17,12 +19,10 @@ interface Props {
   courses: Course[];
 }
 
+const STATUSES = [CourseStatus.Open, CourseStatus.Progress, CourseStatus.Done];
+
 const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStatus }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const submit = (evt: any) => {
-    evt.preventDefault();
-  };
 
   const add = () => {
     const value = inputRef.current?.value ?? null;
@@ -39,39 +39,27 @@ const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStat
 
   return (
     <>
-      <form onSubmit={submit}>
-        <input ref={inputRef} type="text" placeholder="Enter a card title" />
+      <Form>
+        <Field ref={inputRef} placeholder="Enter a card title" />
         <Button onClick={add} text="Add card" />
-      </form>
+      </Form>
 
       <Table>
-        <List
-          title={capitalize(CourseStatus.Open)}
-          items={getCoursesByStatus(CourseStatus.Open)}
-          remove={deleteCourse}
-          changeStatus={changeStatus}
-        />
-
-        <List
-          title={capitalize(CourseStatus.Progress)}
-          items={getCoursesByStatus(CourseStatus.Progress)}
-          remove={deleteCourse}
-          changeStatus={changeStatus}
-        />
-
-        <List
-          title={capitalize(CourseStatus.Done)}
-          items={getCoursesByStatus(CourseStatus.Done)}
-          remove={deleteCourse}
-          changeStatus={changeStatus}
-        />
+        {STATUSES.map(status => (
+          <List
+            title={capitalize(status)}
+            items={getCoursesByStatus(status)}
+            remove={deleteCourse}
+            changeStatus={changeStatus}
+          />
+        ))}
       </Table>
     </>
   )
 };
 
 const mapStateToProps = (state: RootState) => ({
-  courses: state.courses.list,
+  courses: getCoursesList(state),
 });
 
 const mapDispatchToProps = ({
