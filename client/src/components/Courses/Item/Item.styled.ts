@@ -10,8 +10,5 @@ export const CourseItem = styled.li`
   border: 1px solid;
 
   position: relative;
-
-  &:not(:last-child) {
-    margin-bottom: 16px;
-  }
+  margin-top: 16px;
 `;

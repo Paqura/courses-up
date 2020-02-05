@@ -11,12 +11,14 @@ interface Props {
 }
 
 const List: React.FC<Props> = ({ changeStatus, items, remove, title }) => {
+  const status = title.toLowerCase();
+
   return (
     <CourseList>
-      <Header>
+      <Header status={status}>
         <Title>{title}</Title>
       </Header>
-    
+
       {items.length > 0 && items.map(item => (
         <Item
           key={item.id}

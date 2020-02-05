@@ -43,8 +43,12 @@ const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStat
       <Form>
         <TextField inputRef={inputRef} label="Enter a card title" />
 
-        <Button onClick={add} variant="contained" color="primary">
-          Add card
+        <Button
+          onClick={add}
+          variant="contained"
+          color="primary"
+        >
+          Add
         </Button>
       </Form>
 

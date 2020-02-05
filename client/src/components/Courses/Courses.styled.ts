@@ -5,4 +5,5 @@ export const Table = styled.section`
   grid-template-columns: 25% 25% 25%;
   grid-gap: 16px;
   margin-bottom: 32px;
+  margin-top: 32px;
 `;
