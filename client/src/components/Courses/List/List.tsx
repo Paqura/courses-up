@@ -1,16 +1,16 @@
 import React from 'react';
-import { Course, CourseStatus } from '../Courses.entities';
+import { Course } from '../Courses.entities';
 import { Item } from '../Item';
 import { CourseList, Title, Header } from './List.styled';
+import { CourseActions } from '../Courses';
 
 interface Props {
-  changeStatus(id: string, status: CourseStatus): void;
+  actions: CourseActions;
   items: Course[];
-  remove(id: string): void;
   title: string;
 }
 
-const List: React.FC<Props> = ({ changeStatus, items, remove, title }) => {
+const List: React.FC<Props> = ({ actions, items, title }) => {
   const status = title.toLowerCase();
 
   return (
@@ -23,8 +23,7 @@ const List: React.FC<Props> = ({ changeStatus, items, remove, title }) => {
         <Item
           key={item.id}
           item={item}
-          remove={remove}
-          changeStatus={changeStatus}
+          actions={actions}
         />
       ))}
     </CourseList>

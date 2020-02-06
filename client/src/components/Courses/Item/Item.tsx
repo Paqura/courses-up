@@ -1,32 +1,47 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, useRef, SyntheticEvent } from 'react';
 import { Course, CourseStatus } from '../Courses.entities';
-import { Controls, CourseItem } from './Item.styled';
-import { Button } from '@material-ui/core';
+import { Controls, CourseItem, CourseTitle } from './Item.styled';
+import { Button, TextField } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { CourseActions } from '../Courses';
 
 interface Props {
-  changeStatus(id: string, status: CourseStatus): void;
-  remove(id: string): void;
+  actions: CourseActions;
   item: Course;
 }
 
-const Item: React.FC<Props> = ({ remove, item, changeStatus }) => {
+const Item: React.FC<Props> = ({
+  actions: { changeStatus, changeTitle, deleteCourse },
+  item
+}) => {
+  const [doesTitleUpdate, setDoesTitleUpdate] = useState(false);
   const [isDropdownShown, setIsDropdownShown] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const titleInputRef = useRef<HTMLInputElement>(null);
 
-  const onDelete = () => {
-    remove(item.id);
-  };
-
-  const toggleDropdown = (evt: MouseEvent<HTMLButtonElement>) => {
+  const toggleDropdown = (evt: SyntheticEvent<HTMLButtonElement>) => {
     setIsDropdownShown(!isDropdownShown);
     setAnchorEl(evt.currentTarget);
+  };
+
+  const showTitleUpdater = () => {
+    setDoesTitleUpdate(true);
+  };
+
+  const onDelete = () => {
+    deleteCourse(item.id);
   };
 
   const onChangeStatus = (status: CourseStatus) => {
     changeStatus(item.id, status);
     setIsDropdownShown(false);
+  };
+
+  const onChangeTitle = () => {
+    setDoesTitleUpdate(false);
+    console.log(titleInputRef)
+    changeTitle(item.id, titleInputRef.current!.value);
   };
 
   const MENU_ITEMS = [
@@ -37,7 +52,16 @@ const Item: React.FC<Props> = ({ remove, item, changeStatus }) => {
 
   return (
     <CourseItem>
-      {item.title}
+      {doesTitleUpdate ? (
+        <>
+          <TextField defaultValue={item.title} inputRef={titleInputRef} />
+          <Button onClick={onChangeTitle}>Save</Button>
+        </>
+      ) : (
+        <CourseTitle onClick={showTitleUpdater}>
+          {item.title}
+        </CourseTitle>
+      )}
 
       <Controls>
         <Button onClick={onDelete} color="secondary" variant="outlined" size="small">Delete</Button>

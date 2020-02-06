@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Course, CourseStatus } from './Courses.entities';
 import { connect } from 'react-redux';
-import { addCourse, changeStatus, deleteCourse } from '../../actions/courses';
+import { addCourse, changeStatus, deleteCourse, changeTitle } from '../../actions/courses';
 import { RootState } from '../../types/root';
 import { List } from './List';
 import uuid from 'uuid';
@@ -13,16 +13,30 @@ import { getCoursesList } from '../../selectors/coursesSelectors';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+export interface CourseActions {
+  changeStatus: typeof changeStatus;
+  changeTitle: typeof changeTitle;
+  deleteCourse: typeof deleteCourse;
+}
+
 interface Props {
   addCourse: typeof addCourse;
   changeStatus: typeof changeStatus;
+  changeTitle: typeof changeTitle;
   deleteCourse: typeof deleteCourse;
+
   courses: Course[];
 }
 
 const STATUSES = [CourseStatus.Open, CourseStatus.Progress, CourseStatus.Done];
 
-const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStatus }) => {
+const Courses: React.FC<Props> = ({
+  addCourse,
+  changeStatus,
+  changeTitle,
+  courses,
+  deleteCourse,
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const add = () => {
@@ -37,6 +51,8 @@ const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStat
   };
 
   const getCoursesByStatus = getCourses(courses);
+
+  const actions: CourseActions = { changeStatus, changeTitle, deleteCourse };
 
   return (
     <>
@@ -58,8 +74,7 @@ const Courses: React.FC<Props> = ({ addCourse, deleteCourse, courses, changeStat
             key={status}
             title={capitalize(status)}
             items={getCoursesByStatus(status)}
-            remove={deleteCourse}
-            changeStatus={changeStatus}
+            actions={actions}
           />
         ))}
       </Table>
@@ -73,8 +88,9 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = ({
   addCourse,
-  deleteCourse,
   changeStatus,
+  changeTitle,
+  deleteCourse,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Courses);

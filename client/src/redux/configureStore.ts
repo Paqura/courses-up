@@ -6,3 +6,5 @@ const middleware = [...getDefaultMiddleware(), logger];
 
 const store = configureStore({ reducer: rootReducer, middleware });
 export { store };
+
+export type RootState = ReturnType<typeof rootReducer>;
