@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { Course } from "../../components/Courses/Courses.entities";
-import { addCourse, deleteCourse, changeStatus, changeTitle } from "../../actions/courses";
-import { rejectCourseById, changeCourseStatus, changeCourseTitle } from "./utils";
+import { addCourse, deleteCourse, changeStatus, changeTitle, changeDescription } from "../../actions/courses";
+import { rejectCourseById, changeCourseStatus, changeCourseTitle, changeCourseDescription } from "./utils";
 
 export interface CourseState {
   list: Course[];
@@ -26,5 +26,9 @@ export const coursesReducer = createReducer(initialState, {
 
   [changeTitle.type]: (state, action) => ({
     list: changeCourseTitle(state.list, action.payload.id, action.payload.title),
+  }),
+
+  [changeDescription.type]: (state, action) => ({
+    list: changeCourseDescription(state.list, action.payload.id, action.payload.description),
   }),
 });

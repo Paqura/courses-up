@@ -19,13 +19,19 @@ export const changeTitle = createAction(`${PREFIX}/CHANGE_TITLE`, (id: string, t
   payload: { id, title },
 }));
 
+export const changeDescription = createAction(`${PREFIX}/CHANGE_DESCRIPTION`, (id: string, description: string) => ({
+  payload: { id, description },
+}));
+
 type AddCourse = typeof addCourse;
 type DeleteCourse = typeof deleteCourse;
 type ChangeStatus = typeof changeStatus;
 type ChangeTitle = typeof changeTitle;
+type ChangeDescription = typeof changeDescription;
 
 export type CourseAction =
   AddCourse &
   DeleteCourse &
   ChangeStatus &
-  ChangeTitle;
+  ChangeTitle &
+  ChangeDescription;

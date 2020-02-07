@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Course, CourseStatus } from './Courses.entities';
 import { connect } from 'react-redux';
-import { addCourse, changeStatus, deleteCourse, changeTitle } from '../../actions/courses';
+import { addCourse, changeStatus, changeDescription, deleteCourse, changeTitle } from '../../actions/courses';
 import { RootState } from '../../types/root';
 import { List } from './List';
 import uuid from 'uuid';
@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 
 export interface CourseActions {
   changeStatus: typeof changeStatus;
+  changeDescription: typeof changeDescription;
   changeTitle: typeof changeTitle;
   deleteCourse: typeof deleteCourse;
 }
@@ -22,6 +23,7 @@ export interface CourseActions {
 interface Props {
   addCourse: typeof addCourse;
   changeStatus: typeof changeStatus;
+  changeDescription: typeof changeDescription;
   changeTitle: typeof changeTitle;
   deleteCourse: typeof deleteCourse;
 
@@ -34,6 +36,7 @@ const Courses: React.FC<Props> = ({
   addCourse,
   changeStatus,
   changeTitle,
+  changeDescription,
   courses,
   deleteCourse,
 }) => {
@@ -52,7 +55,7 @@ const Courses: React.FC<Props> = ({
 
   const getCoursesByStatus = getCourses(courses);
 
-  const actions: CourseActions = { changeStatus, changeTitle, deleteCourse };
+  const actions: CourseActions = { changeStatus, changeTitle, changeDescription, deleteCourse };
 
   return (
     <>
@@ -90,6 +93,7 @@ const mapDispatchToProps = ({
   addCourse,
   changeStatus,
   changeTitle,
+  changeDescription,
   deleteCourse,
 });
 

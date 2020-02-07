@@ -6,19 +6,25 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { CourseActions } from '../Courses';
 
+// TODO
+// in the future separate this component on parts (Title, Description, Controls)
+
 interface Props {
   actions: CourseActions;
   item: Course;
 }
 
 const Item: React.FC<Props> = ({
-  actions: { changeStatus, changeTitle, deleteCourse },
+  actions: { changeStatus, changeTitle, changeDescription, deleteCourse },
   item
 }) => {
   const [doesTitleUpdate, setDoesTitleUpdate] = useState(false);
+  const [doesDescriptionUpdate, setDoesDescriptionUpdate] = useState(false);
   const [isDropdownShown, setIsDropdownShown] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
   const titleInputRef = useRef<HTMLInputElement>(null);
+  const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
 
   const toggleDropdown = (evt: SyntheticEvent<HTMLButtonElement>) => {
     setIsDropdownShown(!isDropdownShown);
@@ -27,6 +33,10 @@ const Item: React.FC<Props> = ({
 
   const showTitleUpdater = () => {
     setDoesTitleUpdate(true);
+  };
+
+  const showDescriptionUpdater = () => {
+    setDoesDescriptionUpdate(true);
   };
 
   const onDelete = () => {
@@ -40,8 +50,12 @@ const Item: React.FC<Props> = ({
 
   const onChangeTitle = () => {
     setDoesTitleUpdate(false);
-    console.log(titleInputRef)
     changeTitle(item.id, titleInputRef.current!.value);
+  };
+
+  const onChangeDescription = () => {
+    setDoesDescriptionUpdate(false);
+    changeDescription(item.id, descriptionInputRef.current!.value);
   };
 
   const MENU_ITEMS = [
@@ -61,6 +75,21 @@ const Item: React.FC<Props> = ({
         <CourseTitle onClick={showTitleUpdater}>
           {item.title}
         </CourseTitle>
+      )}
+
+      {doesDescriptionUpdate ? (
+        <>
+          <TextField
+            multiline
+            variant="filled"
+            defaultValue={item.description}
+            inputRef={descriptionInputRef}
+          />
+
+          <Button onClick={onChangeDescription}>Save</Button>
+        </>
+      ) : (
+        <p onClick={showDescriptionUpdater} style={{ height: '60px', backgroundColor: 'blue' }}>{item.description}</p>
       )}
 
       <Controls>
