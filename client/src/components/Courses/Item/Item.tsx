@@ -1,14 +1,12 @@
 import React, { useState, useRef, SyntheticEvent } from 'react';
 import { Course, CourseStatus } from '../Courses.entities';
-import { Controls, CourseItem, CourseTitle } from './Item.styled';
-import { Button, TextField } from '@material-ui/core';
+import { Controls, CourseItem } from './Item.styled';
+import { Button } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { CourseActions } from '../Courses';
 import { Description } from '../Description';
-
-// TODO
-// in the future separate this component on parts (Title, Description, Controls)
+import { Title } from '../Title';
 
 interface Props {
   actions: CourseActions;
@@ -19,7 +17,6 @@ const Item: React.FC<Props> = ({
   actions: { changeStatus, changeTitle, changeDescription, deleteCourse },
   item
 }) => {
-  const [doesTitleUpdate, setDoesTitleUpdate] = useState(false);
   const [isDropdownShown, setIsDropdownShown] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -31,10 +28,6 @@ const Item: React.FC<Props> = ({
     setAnchorEl(evt.currentTarget);
   };
 
-  const showTitleUpdater = () => {
-    setDoesTitleUpdate(true);
-  };
-
   const onDelete = () => {
     deleteCourse(item.id);
   };
@@ -42,11 +35,6 @@ const Item: React.FC<Props> = ({
   const onChangeStatus = (status: CourseStatus) => {
     changeStatus(item.id, status);
     setIsDropdownShown(false);
-  };
-
-  const onChangeTitle = () => {
-    setDoesTitleUpdate(false);
-    changeTitle(item.id, titleInputRef.current!.value);
   };
 
   const MENU_ITEMS = [
@@ -57,16 +45,11 @@ const Item: React.FC<Props> = ({
 
   return (
     <CourseItem>
-      {doesTitleUpdate ? (
-        <>
-          <TextField defaultValue={item.title} inputRef={titleInputRef} />
-          <Button onClick={onChangeTitle}>Save</Button>
-        </>
-      ) : (
-        <CourseTitle onClick={showTitleUpdater}>
-          {item.title}
-        </CourseTitle>
-      )}
+      <Title
+        ref={titleInputRef}
+        change={changeTitle}
+        item={item}
+      />
 
       <Description
         ref={descriptionInputRef}
