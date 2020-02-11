@@ -5,6 +5,7 @@ import { Button, TextField } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { CourseActions } from '../Courses';
+import { Description } from '../Description';
 
 // TODO
 // in the future separate this component on parts (Title, Description, Controls)
@@ -19,12 +20,11 @@ const Item: React.FC<Props> = ({
   item
 }) => {
   const [doesTitleUpdate, setDoesTitleUpdate] = useState(false);
-  const [doesDescriptionUpdate, setDoesDescriptionUpdate] = useState(false);
   const [isDropdownShown, setIsDropdownShown] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const titleInputRef = useRef<HTMLInputElement>(null);
-  const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
+  const descriptionInputRef = React.useRef<HTMLTextAreaElement>(null);
 
   const toggleDropdown = (evt: SyntheticEvent<HTMLButtonElement>) => {
     setIsDropdownShown(!isDropdownShown);
@@ -33,10 +33,6 @@ const Item: React.FC<Props> = ({
 
   const showTitleUpdater = () => {
     setDoesTitleUpdate(true);
-  };
-
-  const showDescriptionUpdater = () => {
-    setDoesDescriptionUpdate(true);
   };
 
   const onDelete = () => {
@@ -51,11 +47,6 @@ const Item: React.FC<Props> = ({
   const onChangeTitle = () => {
     setDoesTitleUpdate(false);
     changeTitle(item.id, titleInputRef.current!.value);
-  };
-
-  const onChangeDescription = () => {
-    setDoesDescriptionUpdate(false);
-    changeDescription(item.id, descriptionInputRef.current!.value);
   };
 
   const MENU_ITEMS = [
@@ -77,20 +68,11 @@ const Item: React.FC<Props> = ({
         </CourseTitle>
       )}
 
-      {doesDescriptionUpdate ? (
-        <>
-          <TextField
-            multiline
-            variant="filled"
-            defaultValue={item.description}
-            inputRef={descriptionInputRef}
-          />
-
-          <Button onClick={onChangeDescription}>Save</Button>
-        </>
-      ) : (
-        <p onClick={showDescriptionUpdater} style={{ height: '60px', backgroundColor: 'blue' }}>{item.description}</p>
-      )}
+      <Description
+        ref={descriptionInputRef}
+        change={changeDescription}
+        item={item}
+      />
 
       <Controls>
         <Button onClick={onDelete} color="secondary" variant="outlined" size="small">Delete</Button>
