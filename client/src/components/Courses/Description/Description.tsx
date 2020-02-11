@@ -1,6 +1,8 @@
 import React, { forwardRef, useState, Ref } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { Course } from '../Courses.entities';
+import { DescriptionText, EditorWrapper } from './Description.styled';
+import { Add } from './Add';
 
 interface Props {
   ref?: Ref<HTMLTextAreaElement> | null;
@@ -19,7 +21,6 @@ export const Description = forwardRef<HTMLTextAreaElement, Props>((
   };
 
   const onChange = () => {
-    // странный хак, пока не понял в чём прикол
     if (typeof ref === 'function') {
       return;
     }
@@ -29,11 +30,13 @@ export const Description = forwardRef<HTMLTextAreaElement, Props>((
   };
 
   if (!isEditorShown) {
-    return <p onClick={toggleView} style={{ height: '60px', backgroundColor: 'blue' }}>{item.description}</p>;
+    return item.description.length > 0
+      ? <DescriptionText onClick={toggleView}>{item.description}</DescriptionText>
+      : <Add onClick={toggleView} />
   }
 
   return (
-    <>
+    <EditorWrapper>
       <TextField
         multiline
         variant="filled"
@@ -42,6 +45,6 @@ export const Description = forwardRef<HTMLTextAreaElement, Props>((
       />
 
       <Button onClick={onChange}>Save</Button>
-    </>
+    </EditorWrapper>
   );
 });
