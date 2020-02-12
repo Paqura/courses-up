@@ -1,8 +1,8 @@
-import { Course, CourseStatus } from "../../components/Courses/Courses.entities";
+import { Course, CourseState } from "../../components/Courses/Courses.entities";
 
 export const rejectCourseById = (courses: Course[], id: string) => courses.filter(course => course.id !== id);
 
-export const changeCourseStatus = (courses: Course[], id: string, status: CourseStatus) =>
+export const changeCourseStatus = (courses: Course[], id: string, status: CourseState) =>
   courses.map(course => course.id === id ? { ...course, status } : course);
 
 export const changeCourseTitle = (courses: Course[], id: string, title: string) =>

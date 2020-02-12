@@ -1,17 +1,27 @@
 import React, { useRef } from 'react';
-import { Course, CourseStatus } from './Courses.entities';
+import { Course, CourseState } from './Courses.entities';
 import { connect } from 'react-redux';
 import { addCourse, changeStatus, changeDescription, deleteCourse, changeTitle } from '../../actions/courses';
 import { RootState } from '../../types/root';
 import { List } from './List';
 import uuid from 'uuid';
-import { createCourse, getCourses } from '../../utils/course';
+import { createCourse, getCourses, omitTemporaryFields } from '../../utils/course';
 import { Table } from './Courses.styled';
-import { capitalize } from '../../utils/capitalize';
 import { Form } from '../shared/Form';
 import { getCoursesList } from '../../selectors/coursesSelectors';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+const ADD_COURSE = gql`
+  mutation CreateCourse($data: CourseCreateInput!) {
+    createCourse(data: $data) {
+      id
+    }
+  }
+`;
 
 export interface CourseActions {
   changeStatus: typeof changeStatus;
@@ -30,7 +40,7 @@ interface Props {
   courses: Course[];
 }
 
-const STATUSES = [CourseStatus.Open, CourseStatus.Progress, CourseStatus.Done];
+const STATUSES = [CourseState.Open, CourseState.Progress, CourseState.Done];
 
 const Courses: React.FC<Props> = ({
   addCourse,
@@ -42,12 +52,20 @@ const Courses: React.FC<Props> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const [addCourseMutation] = useMutation(ADD_COURSE);
+
   const add = () => {
     const value = inputRef.current?.value ?? null;
 
     if (value) {
       const course = createCourse(value, uuid());
       addCourse(course);
+
+      addCourseMutation({
+        variables: {
+          data: omitTemporaryFields(course, ['id'])
+        },
+      });
 
       inputRef.current!.value = '';
     }
@@ -75,7 +93,7 @@ const Courses: React.FC<Props> = ({
         {STATUSES.map(status => (
           <List
             key={status}
-            title={capitalize(status)}
+            title={status}
             items={getCoursesByStatus(status)}
             actions={actions}
           />

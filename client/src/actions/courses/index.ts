@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import { Course, CourseStatus } from "../../components/Courses/Courses.entities";
+import { Course, CourseState } from "../../components/Courses/Courses.entities";
 
 export const PREFIX = '@courses';
 
@@ -11,7 +11,7 @@ export const deleteCourse = createAction(`${PREFIX}/DELETE`, (id: string) => ({
   payload: { id },
 }));
 
-export const changeStatus = createAction(`${PREFIX}/CHANGE_STATUS`, (id: string, status: CourseStatus) => ({
+export const changeStatus = createAction(`${PREFIX}/CHANGE_STATUS`, (id: string, status: CourseState) => ({
   payload: { id, status },
 }));
 

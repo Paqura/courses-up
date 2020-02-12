@@ -1,16 +1,21 @@
-import { Course, CourseStatus } from "../components/Courses/Courses.entities";
-import date from 'dayjs';
+import { Course, CourseState } from "../components/Courses/Courses.entities";
 
 export const createCourse = (value: string, id: string): Course => ({
   id,
   title: value,
   description: '',
-  status: CourseStatus.Open,
-
-  meta: {
-    dateCreated: date().format(),
-  }
+  state: CourseState.Open,
 });
 
-export const getCourses = (courses: Course[]) => (status: CourseStatus) =>
-  courses.filter(course => course.status === status);
+export const getCourses = (courses: Course[]) => (status: CourseState) =>
+  courses.filter(course => course.state === status);
+
+export const omitTemporaryFields = (course: Course, fields: (keyof Course)[]): Partial<Course> => {
+  const clone = { ...course };
+
+  for (const field of fields)  {
+    delete clone[field];
+  }
+
+  return clone;
+};

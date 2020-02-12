@@ -1,14 +1,14 @@
 import styled, { css } from 'styled-components';
-import { CourseStatus } from '../Courses.entities';
+import { CourseState } from '../Courses.entities';
 
-export const getHeaderStyle = (status: CourseStatus) => ({
-  [CourseStatus.Open]: {
+export const getHeaderStyle = (status: CourseState) => ({
+  [CourseState.Open]: {
     backgroundColor: '#c8c8c8',
   },
-  [CourseStatus.Progress]: {
+  [CourseState.Progress]: {
     backgroundColor: '#8383e2',
   },
-  [CourseStatus.Done]: {
+  [CourseState.Done]: {
     backgroundColor: '#a4e4a4',
   },
 })[status];
