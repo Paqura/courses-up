@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.9.1",
     "@reduxjs/toolkit": "^1.2.3",
+    "dayjs": "^1.8.20",
     "fp-ts": "^2.4.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",

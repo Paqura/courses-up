@@ -4,9 +4,15 @@ export enum CourseStatus {
   Done = 'done',
 }
 
+interface CourseMeta {
+  dateCreated: string;
+}
+
 export interface Course {
   id: string;
   title: string;
   description: string;
   status: CourseStatus;
+
+  meta: CourseMeta;
 }
