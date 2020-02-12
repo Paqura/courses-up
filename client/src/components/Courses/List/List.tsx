@@ -11,11 +11,10 @@ interface Props {
 }
 
 const List: React.FC<Props> = ({ actions, items, title }) => {
-  const status = title.toLowerCase();
 
   return (
     <CourseList>
-      <Header status={status}>
+      <Header status={title}>
         <Title>{title}</Title>
       </Header>
 
