@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import { CourseState } from './Courses.entities';
+import { CourseState, Course } from './Courses.entities';
 import { connect } from 'react-redux';
-import { changeStatus, changeDescription, changeTitle } from '../../actions/courses';
+import { changeDescription, changeTitle } from '../../actions/courses';
 import { List } from './List';
 import uuid from 'uuid';
 import { createCourse, getCourses, omitTemporaryFields } from '../../utils/course';
@@ -14,31 +14,37 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { ADD_COURSE } from './graphql/mutations/addCourse';
 import { GET_COURSES } from './graphql/query/courses';
 import { DELETE_COURSE } from './graphql/mutations/deleteCourse';
+import { CHANGE_STATE } from './graphql/mutations/changeState';
 
 export interface CourseActions {
-  changeStatus: typeof changeStatus;
   changeDescription: typeof changeDescription;
   changeTitle: typeof changeTitle;
   // !TODO вкурить какие типы указывать
   deleteCourse: any;
+  changeState: any;
 }
 
 interface Props {
-  changeStatus: typeof changeStatus;
   changeDescription: typeof changeDescription;
   changeTitle: typeof changeTitle;
+}
+
+type QueryCourse = Course & { __typename: string };
+
+interface CoursesQuery {
+  courses: QueryCourse[];
 }
 
 const STATUSES = [CourseState.Open, CourseState.Progress, CourseState.Done];
 
 const Courses: React.FC<Props> = ({
-  changeStatus,
   changeTitle,
   changeDescription,
 }) => {
-  const { loading, error, data } = useQuery(GET_COURSES);
+  const { loading, error, data } = useQuery<CoursesQuery>(GET_COURSES);
   const [addCourseMutation] = useMutation(ADD_COURSE);
   const [deleteCourseMutation] = useMutation(DELETE_COURSE);
+  const [changeStateMutation] = useMutation(CHANGE_STATE);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,7 +56,7 @@ const Courses: React.FC<Props> = ({
     return <div>Error</div>
   }
 
-  const { courses } = data;
+  const { courses } = data!;
 
   const add = () => {
     const value = inputRef.current?.value ?? null;
@@ -80,9 +86,32 @@ const Courses: React.FC<Props> = ({
     })
   };
 
+  const changeState = (id: string, state: CourseState) => {
+    const course = courses.find(course => course.id === id);
+
+    if (!course) {
+      return;
+    }
+
+    const { id: ID, __typename, ...rest } = course;
+
+    const data = {
+      ...rest,
+      state
+    }
+
+    changeStateMutation({
+      variables: {
+        id: { id },
+        data,
+      },
+      refetchQueries: ['Courses'],
+    })
+  };
+
   const getCoursesByStatus = getCourses(courses);
 
-  const actions: CourseActions = { changeStatus, changeTitle, changeDescription, deleteCourse };
+  const actions: CourseActions = { changeState, changeTitle, changeDescription, deleteCourse };
 
   return (
     <>
@@ -113,7 +142,6 @@ const Courses: React.FC<Props> = ({
 };
 
 const mapDispatchToProps = ({
-  changeStatus,
   changeTitle,
   changeDescription,
 });
