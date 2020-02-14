@@ -3,10 +3,11 @@ import { Button, TextField } from '@material-ui/core';
 import { Course } from '../Courses.entities';
 import { DescriptionText, EditorWrapper } from './Description.styled';
 import { Add } from './Add';
+import { FullUpdateMutationData } from '../Courses';
 
 interface Props {
   ref?: Ref<HTMLTextAreaElement> | null;
-  change(id: string, value: string): void;
+  change(id: string, data: Partial<FullUpdateMutationData>): void;
   item: Course;
 }
 
@@ -25,7 +26,7 @@ export const Description = forwardRef<HTMLTextAreaElement, Props>((
       return;
     }
 
-    change(item.id, ref?.current?.value ?? '');
+    change(item.id, { description: ref?.current?.value ?? '' });
     setIsEditorShown(!isEditorShown);
   };
 

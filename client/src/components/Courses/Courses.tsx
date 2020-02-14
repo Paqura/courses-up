@@ -1,7 +1,5 @@
 import React, { useRef } from 'react';
-import { CourseState, Course } from './Courses.entities';
-import { connect } from 'react-redux';
-import { changeDescription, changeTitle } from '../../actions/courses';
+import { CourseState, Course, CourseField } from './Courses.entities';
 import { List } from './List';
 import uuid from 'uuid';
 import { createCourse, getCourses, omitTemporaryFields } from '../../utils/course';
@@ -14,20 +12,15 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { ADD_COURSE } from './graphql/mutations/addCourse';
 import { GET_COURSES } from './graphql/query/courses';
 import { DELETE_COURSE } from './graphql/mutations/deleteCourse';
-import { CHANGE_STATE } from './graphql/mutations/changeState';
+import { UPDATE_COURSE } from './graphql/mutations/updateCourse';
 
 export interface CourseActions {
-  changeDescription: typeof changeDescription;
-  changeTitle: typeof changeTitle;
   // !TODO вкурить какие типы указывать
+  updateCourse: any;
   deleteCourse: any;
-  changeState: any;
 }
 
-interface Props {
-  changeDescription: typeof changeDescription;
-  changeTitle: typeof changeTitle;
-}
+interface Props {}
 
 type QueryCourse = Course & { __typename: string };
 
@@ -35,16 +28,20 @@ interface CoursesQuery {
   courses: QueryCourse[];
 }
 
+export interface FullUpdateMutationData {
+  [CourseField.description]: string;
+  [CourseField.id]: string;
+  [CourseField.state]: CourseState;
+  [CourseField.title]: string;
+}
+
 const STATUSES = [CourseState.Open, CourseState.Progress, CourseState.Done];
 
-const Courses: React.FC<Props> = ({
-  changeTitle,
-  changeDescription,
-}) => {
+const Courses: React.FC<Props> = () => {
   const { loading, error, data } = useQuery<CoursesQuery>(GET_COURSES);
   const [addCourseMutation] = useMutation(ADD_COURSE);
   const [deleteCourseMutation] = useMutation(DELETE_COURSE);
-  const [changeStateMutation] = useMutation(CHANGE_STATE);
+  const [updateCourseMutation] = useMutation(UPDATE_COURSE);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -66,7 +63,7 @@ const Courses: React.FC<Props> = ({
 
       addCourseMutation({
         variables: {
-          data: omitTemporaryFields(course, ['id'])
+          data: omitTemporaryFields(course, [CourseField.id])
         },
 
         refetchQueries: ['Courses'],
@@ -86,7 +83,7 @@ const Courses: React.FC<Props> = ({
     })
   };
 
-  const changeState = (id: string, state: CourseState) => {
+  const updateCourse = (id: string, updatedData: Partial<FullUpdateMutationData>) => {
     const course = courses.find(course => course.id === id);
 
     if (!course) {
@@ -97,10 +94,10 @@ const Courses: React.FC<Props> = ({
 
     const data = {
       ...rest,
-      state
+      ...updatedData,
     }
 
-    changeStateMutation({
+    updateCourseMutation({
       variables: {
         id: { id },
         data,
@@ -111,7 +108,7 @@ const Courses: React.FC<Props> = ({
 
   const getCoursesByStatus = getCourses(courses);
 
-  const actions: CourseActions = { changeState, changeTitle, changeDescription, deleteCourse };
+  const actions: CourseActions = { updateCourse, deleteCourse };
 
   return (
     <>
@@ -141,9 +138,4 @@ const Courses: React.FC<Props> = ({
   )
 };
 
-const mapDispatchToProps = ({
-  changeTitle,
-  changeDescription,
-});
-
-export default connect(null, mapDispatchToProps)(Courses);
+export default Courses;

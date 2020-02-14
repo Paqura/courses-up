@@ -2,10 +2,11 @@ import React, { useState, forwardRef, Ref } from 'react';
 import { CourseTitle } from './Title.styled';
 import { TextField, Button } from '@material-ui/core';
 import { Course } from '../Courses.entities';
+import { FullUpdateMutationData } from '../Courses';
 
 interface Props {
   ref: Ref<HTMLInputElement> | null;
-  change(id: string, value: string): void;
+  change(id: string, data: Partial<FullUpdateMutationData>): void;
   item: Course;
 }
 
@@ -22,7 +23,8 @@ export const Title = forwardRef<HTMLInputElement, Props>(({ change, item }, ref)
     }
 
     const { id } = item;
-    change(id, ref?.current?.value ?? '');
+    change(id, { title: ref?.current?.value ?? '' });
+    toggleEditor();
   };
 
   if (!isEditorShown) {

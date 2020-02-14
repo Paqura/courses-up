@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Item: React.FC<Props> = ({
-  actions: { changeState, changeTitle, changeDescription, deleteCourse },
+  actions: { updateCourse, deleteCourse },
   item
 }) => {
   const [isDropdownShown, setIsDropdownShown] = useState(false);
@@ -33,7 +33,7 @@ const Item: React.FC<Props> = ({
   };
 
   const onChangeStatus = (status: CourseState) => {
-    changeState(item.id, status);
+    updateCourse(item.id, { status });
     setIsDropdownShown(false);
   };
 
@@ -47,13 +47,13 @@ const Item: React.FC<Props> = ({
     <CourseItem>
       <Title
         ref={titleInputRef}
-        change={changeTitle}
+        change={updateCourse}
         item={item}
       />
 
       <Description
         ref={descriptionInputRef}
-        change={changeDescription}
+        change={updateCourse}
         item={item}
       />
 
