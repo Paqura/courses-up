@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { CourseState, Course, CourseField } from './Courses.entities';
+import { CourseState, CourseField, FullUpdateMutationData, CourseActions, CoursesQuery } from './Courses.entities';
 import { List } from './List';
 import uuid from 'uuid';
 import { createCourse, getCourses, omitTemporaryFields } from '../../utils/course';
@@ -14,30 +14,9 @@ import { GET_COURSES } from './graphql/query/courses';
 import { DELETE_COURSE } from './graphql/mutations/deleteCourse';
 import { UPDATE_COURSE } from './graphql/mutations/updateCourse';
 
-export interface CourseActions {
-  // !TODO вкурить какие типы указывать
-  updateCourse: any;
-  deleteCourse: any;
-}
-
-interface Props {}
-
-type QueryCourse = Course & { __typename: string };
-
-interface CoursesQuery {
-  courses: QueryCourse[];
-}
-
-export interface FullUpdateMutationData {
-  [CourseField.description]: string;
-  [CourseField.id]: string;
-  [CourseField.state]: CourseState;
-  [CourseField.title]: string;
-}
-
 const STATUSES = [CourseState.Open, CourseState.Progress, CourseState.Done];
 
-const Courses: React.FC<Props> = () => {
+const Courses: React.FC = () => {
   const { loading, error, data } = useQuery<CoursesQuery>(GET_COURSES);
   const [addCourseMutation] = useMutation(ADD_COURSE);
   const [deleteCourseMutation] = useMutation(DELETE_COURSE);
@@ -95,7 +74,7 @@ const Courses: React.FC<Props> = () => {
     const data = {
       ...rest,
       ...updatedData,
-    }
+    };
 
     updateCourseMutation({
       variables: {
@@ -107,7 +86,6 @@ const Courses: React.FC<Props> = () => {
   };
 
   const getCoursesByStatus = getCourses(courses);
-
   const actions: CourseActions = { updateCourse, deleteCourse };
 
   return (

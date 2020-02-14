@@ -1,8 +1,7 @@
 import React from 'react';
-import { Course } from '../Courses.entities';
+import { Course, CourseActions } from '../Courses.entities';
 import { Item } from '../Item';
 import { CourseList, Title, Header } from './List.styled';
-import { CourseActions } from '../Courses';
 
 interface Props {
   actions: CourseActions;

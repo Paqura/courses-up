@@ -1,9 +1,8 @@
 import React, { forwardRef, useState, Ref } from 'react';
 import { Button, TextField } from '@material-ui/core';
-import { Course } from '../Courses.entities';
+import { Course, FullUpdateMutationData } from '../Courses.entities';
 import { DescriptionText, EditorWrapper } from './Description.styled';
 import { Add } from './Add';
-import { FullUpdateMutationData } from '../Courses';
 
 interface Props {
   ref?: Ref<HTMLTextAreaElement> | null;

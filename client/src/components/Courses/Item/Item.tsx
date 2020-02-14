@@ -1,10 +1,9 @@
 import React, { useState, useRef, SyntheticEvent } from 'react';
-import { Course, CourseState } from '../Courses.entities';
+import { Course, CourseState, CourseActions } from '../Courses.entities';
 import { Controls, CourseItem } from './Item.styled';
 import { Button } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { CourseActions } from '../Courses';
 import { Description } from '../Description';
 import { Title } from '../Title';
 
@@ -32,8 +31,8 @@ const Item: React.FC<Props> = ({
     deleteCourse(item.id);
   };
 
-  const onChangeStatus = (status: CourseState) => {
-    updateCourse(item.id, { status });
+  const onChangeStatus = (state: CourseState) => {
+    updateCourse(item.id, { state });
     setIsDropdownShown(false);
   };
 

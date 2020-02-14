@@ -1,6 +1,7 @@
 import { createAction } from "@reduxjs/toolkit";
 import { Course, CourseState } from "../../components/Courses/Courses.entities";
 
+// Это уже не использует, чисто для примера
 export const PREFIX = '@courses';
 
 export const addCourse = createAction(`${PREFIX}/ADD`, (course: Course) => ({

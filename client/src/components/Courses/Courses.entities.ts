@@ -17,3 +17,21 @@ export interface Course {
   [CourseField.description]: string;
   [CourseField.state]: CourseState;
 }
+
+export interface CourseActions {
+  deleteCourse(id: string): void;
+  updateCourse(id: string, updatedData: Partial<FullUpdateMutationData>): void;
+}
+
+export type QueryCourse = Course & { __typename: string };
+
+export interface CoursesQuery {
+  courses: QueryCourse[];
+}
+
+export interface FullUpdateMutationData {
+  [CourseField.description]: string;
+  [CourseField.id]: string;
+  [CourseField.state]: CourseState;
+  [CourseField.title]: string;
+}
