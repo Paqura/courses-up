@@ -6,6 +6,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Description } from '../Description';
 import { Title } from '../Title';
+import { AlertDialog } from '../AlertDialog';
 
 interface Props {
   actions: CourseActions;
@@ -16,11 +17,20 @@ const Item: React.FC<Props> = ({
   actions: { updateCourse, deleteCourse },
   item
 }) => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isDropdownShown, setIsDropdownShown] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const titleInputRef = useRef<HTMLInputElement>(null);
   const descriptionInputRef = React.useRef<HTMLTextAreaElement>(null);
+
+  const openAlert = () => {
+    setIsAlertOpen(true);
+  };
+
+  const toggleAlert = () => {
+    setIsAlertOpen(!isAlertOpen);
+  };
 
   const toggleDropdown = (evt: SyntheticEvent<HTMLButtonElement>) => {
     setIsDropdownShown(!isDropdownShown);
@@ -57,7 +67,7 @@ const Item: React.FC<Props> = ({
       />
 
       <Controls>
-        <Button onClick={onDelete} color="secondary" variant="outlined" size="small">Delete</Button>
+        <Button onClick={openAlert} color="secondary" variant="outlined" size="small">Delete</Button>
         <Button onClick={toggleDropdown} variant="outlined" size="small" style={{ marginLeft: '16px' }}>Status</Button>
 
         <Menu
@@ -72,6 +82,14 @@ const Item: React.FC<Props> = ({
           ))}
         </Menu>
       </Controls>
+
+      <AlertDialog
+        isOpen={isAlertOpen}
+        title="Delete card"
+        description="Are you sure you want to delete the card?"
+        close={toggleAlert}
+        agreeAction={onDelete}
+      />
     </CourseItem>
   );
 }
