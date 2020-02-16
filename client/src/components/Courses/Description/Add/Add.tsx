@@ -1,16 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const AddButton = styled.button`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 4px 8px;
-`;
-
-const Text = styled.span`
-  margin-left: 8px;
-`;
+import { AddButton, Text } from './Add.styled';
 
 interface Props {
   onClick(): void;
