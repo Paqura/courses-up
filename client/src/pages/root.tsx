@@ -5,6 +5,7 @@ import { Snackbar } from '@material-ui/core';
 import { RootState } from '../redux/configureStore';
 import { connect } from 'react-redux';
 import { removeNotification } from '../actions/notification';
+import { Menu } from '../components/shared/Menu';
 
 const TIME_TO_HIDE_MESSAGE = 6000;
 
@@ -14,7 +15,7 @@ interface Props {
 }
 
 const Pages: React.FC<Props> = ({ message, removeNotification }) => {
-  const [isShownNotification, setIsShowNotification] = useState(Boolean(message));
+  const [isShownNotification, setIsShowNotification] = useState(false);
 
   useEffect(() => {
     setIsShowNotification(Boolean(message));
@@ -31,8 +32,10 @@ const Pages: React.FC<Props> = ({ message, removeNotification }) => {
 
   return (
     <Router>
+      <Menu />
+
       <Switch>
-        <Route path="/">
+        <Route path="/" exact>
           <Courses />
 
           <Snackbar
@@ -45,6 +48,10 @@ const Pages: React.FC<Props> = ({ message, removeNotification }) => {
               horizontal: 'left',
             }}
           />
+        </Route>
+
+        <Route path="/archive" exact>
+          Archive
         </Route>
       </Switch>
     </Router>
