@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { ConnectedRouter as Router } from 'connected-react-router';
 import { Courses } from '../components/Courses';
 import { Snackbar } from '@material-ui/core';
-import { RootState } from '../redux/configureStore';
+import { RootState, history } from '../redux/configureStore';
 import { connect } from 'react-redux';
 import { removeNotification } from '../actions/notification';
 import { Menu } from '../components/shared/Menu';
 import { Archive } from '../components/Archive';
+import { Board } from '../components/Board';
 
 const TIME_TO_HIDE_MESSAGE = 6000;
 
@@ -32,11 +34,14 @@ const Pages: React.FC<Props> = ({ message, removeNotification }) => {
   };
 
   return (
-    <Router>
+    <Router history={history}>
       <Menu />
 
       <Switch>
         <Route path="/" exact>
+          <Board />
+        </Route>
+        <Route path="/:id" exact>
           <Courses />
 
           <Snackbar

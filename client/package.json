@@ -7,6 +7,7 @@
     "@material-ui/core": "^4.9.1",
     "@reduxjs/toolkit": "^1.2.3",
     "apollo-boost": "^0.4.7",
+    "connected-react-router": "^6.7.0",
     "dayjs": "^1.8.20",
     "fp-ts": "^2.4.4",
     "graphql": "^14.6.0",

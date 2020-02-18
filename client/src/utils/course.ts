@@ -1,10 +1,11 @@
 import { Course, CourseState } from "../components/Courses/Courses.entities";
 
-export const createCourse = (value: string, id: string): Course => ({
+export const createCourse = (value: string, id: string, boardId: string): Course => ({
   id,
   title: value,
   description: '',
   state: CourseState.Open,
+  boardId,
 });
 
 export const getCourses = (courses: Course[]) => (state: CourseState) =>

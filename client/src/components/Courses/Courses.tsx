@@ -15,6 +15,7 @@ import { GET_COURSES } from './graphql/query/courses';
 import { DELETE_COURSE } from './graphql/mutations/deleteCourse';
 import { UPDATE_COURSE } from './graphql/mutations/updateCourse';
 import { connect } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const STATUSES = [CourseState.Open, CourseState.Progress, CourseState.Done];
 
@@ -22,8 +23,19 @@ interface Props {
   liveNotification(message: string): void;
 }
 
-const Courses: React.FC<Props> = ({ liveNotification }) => {
-  const { loading, error, data } = useQuery<CoursesQuery>(GET_COURSES);
+interface MatchParams {
+  id: string;
+}
+
+const Courses: React.FC<Props & RouteComponentProps<MatchParams>> = ({ liveNotification, match }) => {
+  const boardId = match.params.id;
+
+  const { loading, error, data } = useQuery<CoursesQuery>(GET_COURSES, {
+    variables: {
+      data: { boardId }
+    }
+  });
+
   const [addCourseMutation] = useMutation(ADD_COURSE);
   const [deleteCourseMutation] = useMutation(DELETE_COURSE);
   const [updateCourseMutation] = useMutation(UPDATE_COURSE);
@@ -44,7 +56,7 @@ const Courses: React.FC<Props> = ({ liveNotification }) => {
     const value = inputRef.current?.value ?? null;
 
     if (value) {
-      const course = createCourse(value, uuid());
+      const course = createCourse(value, uuid(), boardId);
 
       addCourseMutation({
         variables: {
@@ -140,4 +152,4 @@ const mapDispatchToProps = {
   liveNotification,
 };
 
-export default connect(null, mapDispatchToProps)(Courses);
+export default withRouter(connect(null, mapDispatchToProps)(Courses));

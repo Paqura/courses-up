@@ -8,7 +8,7 @@ const Menu = () => {
       <nav>
         <List>
           {MENU_ITEMS.map(item => (
-            <ListItem>
+            <ListItem key={item.title}>
               <Linker to={item.to}>{item.title}</Linker>
             </ListItem>
           ))}

@@ -10,6 +10,8 @@ export enum CourseField {
   title = 'title',
   description = 'description',
   state = 'state',
+
+  boardId = 'boardId',
 }
 
 export interface Course {
@@ -17,6 +19,7 @@ export interface Course {
   [CourseField.title]: string;
   [CourseField.description]: string;
   [CourseField.state]: CourseState;
+  [CourseField.boardId]: string;
 }
 
 export interface CourseActions {
@@ -35,4 +38,5 @@ export interface FullUpdateMutationData {
   [CourseField.id]: string;
   [CourseField.state]: CourseState;
   [CourseField.title]: string;
+  [CourseField.boardId]: string;
 }

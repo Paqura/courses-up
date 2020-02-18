@@ -4,6 +4,6 @@ interface MenuItem {
 }
 
 export const MENU_ITEMS: MenuItem[] = [
-  { to: '/', title: 'Courses' },
+  { to: '/', title: 'Boards' },
   { to: '/archive', title: 'Archive' },
 ];

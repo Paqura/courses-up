@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GET_COURSES = gql`
-  query Courses {
-    courses {
+  query Courses($data: CourseWhereInput!) {
+    courses(where: $data) {
       id
       title
       description
