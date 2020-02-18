@@ -91,8 +91,18 @@ const Courses: React.FC<Props> = ({ liveNotification }) => {
         id: { id },
         data,
       },
-      refetchQueries: ['Courses'],
-    })
+
+      optimisticResponse: {
+        __typename: "UpdateCourse",
+        updateCourse: {
+          id: { id },
+          title: data.title,
+          description: data.description,
+          state: data.state,
+          __typename
+        }
+      }
+    });
   };
 
   const getCoursesByStatus = getCourses(courses);
