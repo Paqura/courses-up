@@ -7,16 +7,22 @@ import { Table } from './Courses.styled';
 import { Form } from '../shared/Form';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { liveNotification } from '../../actions/notification';
 
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { ADD_COURSE } from './graphql/mutations/addCourse';
 import { GET_COURSES } from './graphql/query/courses';
 import { DELETE_COURSE } from './graphql/mutations/deleteCourse';
 import { UPDATE_COURSE } from './graphql/mutations/updateCourse';
+import { connect } from 'react-redux';
 
 const STATUSES = [CourseState.Open, CourseState.Progress, CourseState.Done];
 
-const Courses: React.FC = () => {
+interface Props {
+  liveNotification(message: string): void;
+}
+
+const Courses: React.FC<Props> = ({ liveNotification }) => {
   const { loading, error, data } = useQuery<CoursesQuery>(GET_COURSES);
   const [addCourseMutation] = useMutation(ADD_COURSE);
   const [deleteCourseMutation] = useMutation(DELETE_COURSE);
@@ -52,6 +58,10 @@ const Courses: React.FC = () => {
     }
   };
 
+  const showNotificationAfterDelete = (message?: Error) => {
+    liveNotification((message?.message || 'Card was deleted'));
+  }
+
   const deleteCourse = (id: string) => {
     deleteCourseMutation({
       variables: {
@@ -59,7 +69,7 @@ const Courses: React.FC = () => {
       },
 
       refetchQueries: ['Courses'],
-    })
+    }).then(_ => showNotificationAfterDelete()).catch(showNotificationAfterDelete);
   };
 
   const updateCourse = (id: string, updatedData: Partial<FullUpdateMutationData>) => {
@@ -116,4 +126,8 @@ const Courses: React.FC = () => {
   )
 };
 
-export default Courses;
+const mapDispatchToProps = {
+  liveNotification,
+};
+
+export default connect(null, mapDispatchToProps)(Courses);

@@ -8,3 +8,4 @@ const store = configureStore({ reducer: rootReducer, middleware });
 export { store };
 
 export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = typeof store.dispatch;

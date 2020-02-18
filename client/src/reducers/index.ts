@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { coursesReducer } from './courses';
+import { notificationReducer } from './notification';
 
 export default combineReducers({
-  courses: coursesReducer,
+  notification: notificationReducer,
 });
