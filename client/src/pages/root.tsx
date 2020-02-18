@@ -6,6 +6,7 @@ import { RootState } from '../redux/configureStore';
 import { connect } from 'react-redux';
 import { removeNotification } from '../actions/notification';
 import { Menu } from '../components/shared/Menu';
+import { Archive } from '../components/Archive';
 
 const TIME_TO_HIDE_MESSAGE = 6000;
 
@@ -51,7 +52,7 @@ const Pages: React.FC<Props> = ({ message, removeNotification }) => {
         </Route>
 
         <Route path="/archive" exact>
-          Archive
+          <Archive />
         </Route>
       </Switch>
     </Router>

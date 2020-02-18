@@ -11,6 +11,9 @@ export const getHeaderStyle = (status: CourseState) => ({
   [CourseState.Done]: {
     backgroundColor: '#a4e4a4',
   },
+  [CourseState.Archive]: {
+    backgroundColor: '#f9f9f9',
+  },
 })[status];
 
 export const CourseList = styled.ul`

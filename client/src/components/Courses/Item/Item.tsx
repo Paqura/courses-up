@@ -47,9 +47,10 @@ const Item: React.FC<Props> = ({
   };
 
   const MENU_ITEMS = [
-    { id: '1', title: CourseState.Open, action: () => onChangeStatus(CourseState.Open) },
-    { id: '2', title: CourseState.Progress, action: () => onChangeStatus(CourseState.Progress) },
-    { id: '3', title: CourseState.Done, action: () => onChangeStatus(CourseState.Done) },
+    { id: 'open', title: CourseState.Open, action: () => onChangeStatus(CourseState.Open) },
+    { id: 'progress', title: CourseState.Progress, action: () => onChangeStatus(CourseState.Progress) },
+    { id: 'done', title: CourseState.Done, action: () => onChangeStatus(CourseState.Done) },
+    { id: 'archive', title: CourseState.Archive, action: () => onChangeStatus(CourseState.Archive) },
   ].filter(it => it.title !== item.state);
 
   return (

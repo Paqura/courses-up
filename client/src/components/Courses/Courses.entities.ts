@@ -1,7 +1,8 @@
 export enum CourseState {
+  Archive = 'Archive',
+  Done = 'Done',
   Open = 'Open',
   Progress = 'Progress',
-  Done = 'Done',
 }
 
 export enum CourseField {
