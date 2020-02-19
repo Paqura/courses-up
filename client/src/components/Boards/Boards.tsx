@@ -13,6 +13,7 @@ import { CardState } from '../Cards/Cards.entities';
 import { QueryMap } from '../../utils/api';
 import { Board } from './Board';
 import { StateHandler } from '../shared/getStateHandler';
+import { List } from './Boards.styled';
 
 interface Props {
   replace(id: string): void;
@@ -66,17 +67,17 @@ const Boards: React.FC<Props> = ({ replace }) => {
   }
 
   return (
-    <div>
-      <ul>
+    <>
+      <List>
         {data && data.boards.map(board => (
           <Board key={board.id} board={board} deleteBoard={deleteBoard} />
         ))}
-      </ul>
+      </List>
 
-      <Button onClick={createBoard} color="primary">
+      <Button onClick={createBoard} color="primary" variant="contained">
         Create board
       </Button>
-    </div>
+    </>
   )
 };
 

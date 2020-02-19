@@ -1191,6 +1191,12 @@
     react-is "^16.8.0"
     react-transition-group "^4.3.0"
 
+"@material-ui/icons@^4.9.1":
+  version "4.9.1"
+  resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-4.9.1.tgz#fdeadf8cb3d89208945b33dbc50c7c616d0bd665"
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+
 "@material-ui/styles@^4.9.0":
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/@material-ui/styles/-/styles-4.9.0.tgz#10c31859f6868cfa9d3adf6b6c3e32c9d676bc76"
@@ -3021,7 +3027,6 @@ connect-history-api-fallback@^1.6.0:
 connected-react-router@^6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/connected-react-router/-/connected-react-router-6.7.0.tgz#1c37a65684f1729533264c1b1903ee91c8ca3a15"
-  integrity sha512-RDmcmiwSfUWQ3U7J7RVkc9cwNtek26fUn0DWpA8pS7JylC97VNeosrsIxjJ/3CGDrzZPqnc0Hr/kZxjh75JGlw==
   dependencies:
     prop-types "^15.7.2"
 
