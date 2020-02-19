@@ -15,6 +15,7 @@ import { DELETE_CARD } from './graphql/mutations/deleteCard';
 import { UPDATE_CARD } from './graphql/mutations/updateCard';
 import { QueryMap } from '../../utils/api';
 import { STATUSES } from './Cards.utils';
+import { StateHandler } from '../shared/getStateHandler';
 
 interface Props {
   boardId: string;
@@ -34,15 +35,7 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
-  if (error) {
-    return <div>Error</div>
-  }
-
-  const { cards } = data!;
+  const cards = data?.cards ?? [];
 
   const addCard = () => {
     const value = inputRef.current?.value ?? null;
@@ -112,6 +105,10 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
 
   const getCardsByStatus = getCards(cards);
   const actions: CardActions = { updateCard, deleteCard };
+
+  if (error || loading) {
+    return <StateHandler loading={loading} error={error} />;
+  }
 
   return (
     <>

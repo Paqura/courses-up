@@ -12,6 +12,7 @@ import { UPDATE_CARD_STATE } from './graphql/mutation/updateCardState';
 import { CardState } from '../Cards/Cards.entities';
 import { QueryMap } from '../../utils/api';
 import { Board } from './Board';
+import { StateHandler } from '../shared/getStateHandler';
 
 interface Props {
   replace(id: string): void;
@@ -25,14 +26,6 @@ const Boards: React.FC<Props> = ({ replace }) => {
   const [createBoardMutation] = useMutation(CREATE_BOARD);
   const [deleteBoardMutation] = useMutation(DELETE_BOARD);
   const [updateCardStateMutation] = useMutation(UPDATE_CARD_STATE);
-
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
-  if (error) {
-    return <div>Error</div>
-  }
 
   const createBoard = () => {
     createBoardMutation({
@@ -67,6 +60,10 @@ const Boards: React.FC<Props> = ({ replace }) => {
       refetchQueries: [QueryMap.Boards],
     }).then(_ => updateCardsState(boardId));
   };
+
+  if (error || loading) {
+    return <StateHandler loading={loading} error={error} />;
+  }
 
   return (
     <div>
