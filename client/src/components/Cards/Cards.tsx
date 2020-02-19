@@ -7,29 +7,21 @@ import { Table } from './Cards.styled';
 import { Form } from '../shared/Form';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { liveNotification } from '../../actions/notification';
 
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { ADD_CARD } from './graphql/mutations/addCard';
 import { GET_CARDS } from './graphql/query/cards';
 import { DELETE_CARD } from './graphql/mutations/deleteCard';
 import { UPDATE_CARD } from './graphql/mutations/updateCard';
-import { connect } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const STATUSES = [CardState.Open, CardState.Progress, CardState.Done];
 
 interface Props {
+  boardId: string;
   liveNotification(message: string): void;
 }
 
-interface MatchParams {
-  id: string;
-}
-
-const Cards: React.FC<Props & RouteComponentProps<MatchParams>> = ({ liveNotification, match }) => {
-  const boardId = match.params.id;
-
+const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
   const { loading, error, data } = useQuery<CardsQuery>(GET_CARDS, {
     variables: {
       data: { boardId }
@@ -148,8 +140,4 @@ const Cards: React.FC<Props & RouteComponentProps<MatchParams>> = ({ liveNotific
   )
 };
 
-const mapDispatchToProps = {
-  liveNotification,
-};
-
-export default withRouter(connect(null, mapDispatchToProps)(Cards));
+export default Cards;

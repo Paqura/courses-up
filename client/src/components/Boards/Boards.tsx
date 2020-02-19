@@ -7,16 +7,10 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { GET_BOARDS } from './graphql/query/boards';
 import { Link } from 'react-router-dom';
+import { BoardsQuery } from './Boards.entities';
 
 interface Props {
   replace(id: string): void;
-}
-
-interface BoardsQuery {
-  boards: {
-    uid: string;
-    name: string;
-  }[];
 }
 
 const Board: React.FC<Props> = ({ replace }) => {

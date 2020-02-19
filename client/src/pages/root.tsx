@@ -1,59 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
-import { Cards } from '../components/Cards';
-import { Snackbar } from '@material-ui/core';
-import { RootState, history } from '../redux/configureStore';
-import { connect } from 'react-redux';
-import { removeNotification } from '../actions/notification';
+import { history } from '../redux/configureStore';
 import { Menu } from '../components/shared/Menu';
 import { Archive } from '../components/Archive';
-import { Board } from '../components/Board';
+import BoardsPage from './boards';
+import BoardPage from './board';
 
-const TIME_TO_HIDE_MESSAGE = 6000;
-
-interface Props {
-  message: string | null;
-  removeNotification(): void;
-}
-
-const Pages: React.FC<Props> = ({ message, removeNotification }) => {
-  const [isShownNotification, setIsShowNotification] = useState(false);
-
-  useEffect(() => {
-    setIsShowNotification(Boolean(message));
-
-    return () => {
-      setIsShowNotification(false);
-    }
-  }, [message]);
-
-  const hideNotification = () => {
-    setIsShowNotification(false);
-    removeNotification();
-  };
-
+export default () => {
   return (
     <Router history={history}>
       <Menu />
 
       <Switch>
         <Route path="/" exact>
-          <Board />
+          <BoardsPage />
         </Route>
-        <Route path="/:id" exact>
-          <Cards />
 
-          <Snackbar
-            open={isShownNotification}
-            onClose={hideNotification}
-            autoHideDuration={TIME_TO_HIDE_MESSAGE}
-            message={message}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-          />
+        <Route path="/:id" exact>
+          <BoardPage />
         </Route>
 
         <Route path="/archive" exact>
@@ -63,13 +28,3 @@ const Pages: React.FC<Props> = ({ message, removeNotification }) => {
     </Router>
   );
 };
-
-const mapStateToProps = (state: RootState) => ({
-  message: state.notification.text,
-});
-
-const mapDispatchToProps = {
-  removeNotification,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Pages);
