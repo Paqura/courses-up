@@ -9,23 +9,20 @@ interface Props {
   title: string;
 }
 
-const List: React.FC<Props> = ({ actions, items, title }) => {
+const List: React.FC<Props> = ({ actions, items, title }) => (
+  <CourseList>
+    <Header status={title}>
+      <Title>{title}</Title>
+    </Header>
 
-  return (
-    <CourseList>
-      <Header status={title}>
-        <Title>{title}</Title>
-      </Header>
-
-      {items.length > 0 && items.map(item => (
-        <Item
-          key={item.id}
-          item={item}
-          actions={actions}
-        />
-      ))}
-    </CourseList>
-  );
-};
+    {items.length > 0 && items.map(item => (
+      <Item
+        key={item.id}
+        item={item}
+        actions={actions}
+      />
+    ))}
+  </CourseList>
+);
 
 export default List;

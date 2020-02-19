@@ -6,17 +6,18 @@ import uuid from 'uuid';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { GET_BOARDS } from './graphql/query/boards';
-import { Link } from 'react-router-dom';
 import { BoardsQuery } from './Boards.entities';
 import { DELETE_BOARD } from './graphql/mutation/delete';
 import { UPDATE_CARD_STATE } from './graphql/mutation/updateCardState';
 import { CardState } from '../Cards/Cards.entities';
+import { QueryMap } from '../../utils/api';
+import { Board } from './Board';
 
 interface Props {
   replace(id: string): void;
 }
 
-const Board: React.FC<Props> = ({ replace }) => {
+const Boards: React.FC<Props> = ({ replace }) => {
   const { loading, error, data } = useQuery<BoardsQuery>(GET_BOARDS, {
     fetchPolicy: 'no-cache',
   });
@@ -33,12 +34,6 @@ const Board: React.FC<Props> = ({ replace }) => {
     return <div>Error</div>
   }
 
-  const { boards } = data!;
-
-  const moveToBoardPage = (uid: string) => {
-    replace(uid)
-  };
-
   const createBoard = () => {
     createBoardMutation({
       variables: {
@@ -47,7 +42,7 @@ const Board: React.FC<Props> = ({ replace }) => {
           name: 'Unnamed',
         },
       },
-    }).then(res => moveToBoardPage(res.data.createBoard.uid));
+    }).then(res => replace(res.data.createBoard.uid));
   };
 
   const updateCardsState = (boardId: string) => {
@@ -58,6 +53,8 @@ const Board: React.FC<Props> = ({ replace }) => {
         },
         boardId: { boardId },
       },
+    // show notification about archiving the cards
+    // N cards moved to archive
     }).then(console.log);
   };
 
@@ -67,18 +64,15 @@ const Board: React.FC<Props> = ({ replace }) => {
         id: { id }
       },
 
-      refetchQueries: ['Boards'],
+      refetchQueries: [QueryMap.Boards],
     }).then(_ => updateCardsState(boardId));
   };
 
   return (
     <div>
       <ul>
-        {boards.map(board => (
-          <li key={board.uid}>
-            <Link to={board.uid}>{board.name}</Link>
-            <Button onClick={_ => deleteBoard(board.id, board.uid)} variant="outlined" color="secondary">Delete</Button>
-          </li>
+        {data && data.boards.map(board => (
+          <Board key={board.id} board={board} deleteBoard={deleteBoard} />
         ))}
       </ul>
 
@@ -93,4 +87,4 @@ const mapDispatchToProps = {
   replace: (id: string) => push(`/${id}/`),
 };
 
-export default connect(null, mapDispatchToProps)(Board);
+export default connect(null, mapDispatchToProps)(Boards);

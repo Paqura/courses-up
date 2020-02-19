@@ -1,18 +1,11 @@
 import React from 'react';
 import { useQuery } from 'react-apollo';
 import { GET_ARCHIVE_CARDS } from './graphql/query/getArchive';
-import { CardState, CardsQuery } from '../Cards/Cards.entities';
+import { CardsQuery } from '../Cards/Cards.entities';
+import { queryOptions } from './Archive.utils';
 
 const Archive = () => {
-  const { loading, error, data } = useQuery<CardsQuery>(GET_ARCHIVE_CARDS, {
-    variables: {
-      data: {
-        state: CardState.Archive,
-      },
-    },
-
-    fetchPolicy: 'no-cache',
-  });
+  const { loading, error, data } = useQuery<CardsQuery>(GET_ARCHIVE_CARDS, queryOptions);
 
   if (loading) {
     return <div>Loading...</div>
@@ -22,11 +15,9 @@ const Archive = () => {
     return <div>Error</div>
   }
 
-  const { cards } = data!;
-
   return (
     <ul>
-      {cards.map(card => (
+      {data && data.cards.map(card => (
         <li key={card.id}>
           {card.title}
           <p>

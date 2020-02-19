@@ -15,7 +15,7 @@ interface Props {
 
 const Item: React.FC<Props> = ({
   actions: { updateCard, deleteCard },
-  item
+  item,
 }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isDropdownShown, setIsDropdownShown] = useState(false);

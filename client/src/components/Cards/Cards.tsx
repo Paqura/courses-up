@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { CardState, CardField, FullUpdateMutationData, CardActions, CardsQuery } from './Cards.entities';
+import { CardField, FullUpdateMutationData, CardActions, CardsQuery } from './Cards.entities';
 import { List } from './List';
 import uuid from 'uuid';
 import { createCard, getCards, omitTemporaryFields } from '../../utils/card';
@@ -13,8 +13,8 @@ import { ADD_CARD } from './graphql/mutations/addCard';
 import { GET_CARDS } from './graphql/query/cards';
 import { DELETE_CARD } from './graphql/mutations/deleteCard';
 import { UPDATE_CARD } from './graphql/mutations/updateCard';
-
-const STATUSES = [CardState.Open, CardState.Progress, CardState.Done];
+import { QueryMap } from '../../utils/api';
+import { STATUSES } from './Cards.utils';
 
 interface Props {
   boardId: string;
@@ -24,8 +24,8 @@ interface Props {
 const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
   const { loading, error, data } = useQuery<CardsQuery>(GET_CARDS, {
     variables: {
-      data: { boardId }
-    }
+      data: { boardId },
+    },
   });
 
   const [addCardMutation] = useMutation(ADD_CARD);
@@ -44,7 +44,7 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
 
   const { cards } = data!;
 
-  const add = () => {
+  const addCard = () => {
     const value = inputRef.current?.value ?? null;
 
     if (value) {
@@ -55,7 +55,7 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
           data: omitTemporaryFields(card, [CardField.id])
         },
 
-        refetchQueries: ['Cards'],
+        refetchQueries: [QueryMap.Cards],
       });
 
       inputRef.current!.value = '';
@@ -64,7 +64,7 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
 
   const showNotificationAfterDelete = (message?: Error) => {
     liveNotification((message?.message || 'Card was deleted'));
-  }
+  };
 
   const deleteCard = (id: string) => {
     deleteCardMutation({
@@ -72,7 +72,7 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
         id: { id },
       },
 
-      refetchQueries: ['Cards'],
+      refetchQueries: [QueryMap.Cards],
     }).then(_ => showNotificationAfterDelete()).catch(showNotificationAfterDelete);
   };
 
@@ -98,6 +98,7 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
 
       optimisticResponse: {
         __typename: "UpdateCard",
+
         updateCard: {
           id: { id },
           title: data.title,
@@ -117,11 +118,7 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
       <Form>
         <TextField inputRef={inputRef} label="Enter a card title" />
 
-        <Button
-          onClick={add}
-          variant="contained"
-          color="primary"
-        >
+        <Button onClick={addCard} variant="contained" color="primary">
           Add
         </Button>
       </Form>
