@@ -1,17 +1,17 @@
 import styled, { css } from 'styled-components';
-import { CourseState } from '../Courses.entities';
+import { CardState } from '../Cards.entities';
 
-export const getHeaderStyle = (status: CourseState) => ({
-  [CourseState.Open]: {
+export const getHeaderStyle = (status: CardState) => ({
+  [CardState.Open]: {
     backgroundColor: '#c8c8c8',
   },
-  [CourseState.Progress]: {
+  [CardState.Progress]: {
     backgroundColor: '#8383e2',
   },
-  [CourseState.Done]: {
+  [CardState.Done]: {
     backgroundColor: '#a4e4a4',
   },
-  [CourseState.Archive]: {
+  [CardState.Archive]: {
     backgroundColor: '#f9f9f9',
   },
 })[status];

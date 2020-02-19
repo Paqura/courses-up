@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
-import { Courses } from '../components/Courses';
+import { Cards } from '../components/Cards';
 import { Snackbar } from '@material-ui/core';
 import { RootState, history } from '../redux/configureStore';
 import { connect } from 'react-redux';
@@ -42,7 +42,7 @@ const Pages: React.FC<Props> = ({ message, removeNotification }) => {
           <Board />
         </Route>
         <Route path="/:id" exact>
-          <Courses />
+          <Cards />
 
           <Snackbar
             open={isShownNotification}

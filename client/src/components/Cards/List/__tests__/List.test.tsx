@@ -1,7 +1,7 @@
 import React from 'react';
 import List from '../List';
 import { mount } from 'enzyme';
-import { Course, CourseState, CourseActions } from '../../Courses.entities';
+import { Course, CourseState, CourseActions } from '../../Cards.entities';
 
 describe('List', () => {
   it('should return correct length of `items`', () => {

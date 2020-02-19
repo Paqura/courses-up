@@ -1,13 +1,13 @@
 import React, { forwardRef, useState, Ref } from 'react';
 import { Button, TextField } from '@material-ui/core';
-import { Course, FullUpdateMutationData } from '../Courses.entities';
+import { Card, FullUpdateMutationData } from '../Cards.entities';
 import { DescriptionText, EditorWrapper } from './Description.styled';
 import { Add } from './Add';
 
 interface Props {
   ref?: Ref<HTMLTextAreaElement> | null;
   change(id: string, data: Partial<FullUpdateMutationData>): void;
-  item: Course;
+  item: Card;
 }
 
 export const Description = forwardRef<HTMLTextAreaElement, Props>((

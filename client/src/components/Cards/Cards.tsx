@@ -1,23 +1,23 @@
 import React, { useRef } from 'react';
-import { CourseState, CourseField, FullUpdateMutationData, CourseActions, CoursesQuery } from './Courses.entities';
+import { CardState, CardField, FullUpdateMutationData, CardActions, CardsQuery } from './Cards.entities';
 import { List } from './List';
 import uuid from 'uuid';
-import { createCourse, getCourses, omitTemporaryFields } from '../../utils/course';
-import { Table } from './Courses.styled';
+import { createCard, getCards, omitTemporaryFields } from '../../utils/card';
+import { Table } from './Cards.styled';
 import { Form } from '../shared/Form';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { liveNotification } from '../../actions/notification';
 
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { ADD_COURSE } from './graphql/mutations/addCourse';
-import { GET_COURSES } from './graphql/query/courses';
-import { DELETE_COURSE } from './graphql/mutations/deleteCourse';
-import { UPDATE_COURSE } from './graphql/mutations/updateCourse';
+import { ADD_CARD } from './graphql/mutations/addCard';
+import { GET_CARDS } from './graphql/query/cards';
+import { DELETE_CARD } from './graphql/mutations/deleteCard';
+import { UPDATE_CARD } from './graphql/mutations/updateCard';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-const STATUSES = [CourseState.Open, CourseState.Progress, CourseState.Done];
+const STATUSES = [CardState.Open, CardState.Progress, CardState.Done];
 
 interface Props {
   liveNotification(message: string): void;
@@ -27,18 +27,18 @@ interface MatchParams {
   id: string;
 }
 
-const Courses: React.FC<Props & RouteComponentProps<MatchParams>> = ({ liveNotification, match }) => {
+const Cards: React.FC<Props & RouteComponentProps<MatchParams>> = ({ liveNotification, match }) => {
   const boardId = match.params.id;
 
-  const { loading, error, data } = useQuery<CoursesQuery>(GET_COURSES, {
+  const { loading, error, data } = useQuery<CardsQuery>(GET_CARDS, {
     variables: {
       data: { boardId }
     }
   });
 
-  const [addCourseMutation] = useMutation(ADD_COURSE);
-  const [deleteCourseMutation] = useMutation(DELETE_COURSE);
-  const [updateCourseMutation] = useMutation(UPDATE_COURSE);
+  const [addCardMutation] = useMutation(ADD_CARD);
+  const [deleteCardMutation] = useMutation(DELETE_CARD);
+  const [updateCardMutation] = useMutation(UPDATE_CARD);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,20 +50,20 @@ const Courses: React.FC<Props & RouteComponentProps<MatchParams>> = ({ liveNotif
     return <div>Error</div>
   }
 
-  const { courses } = data!;
+  const { cards } = data!;
 
   const add = () => {
     const value = inputRef.current?.value ?? null;
 
     if (value) {
-      const course = createCourse(value, uuid(), boardId);
+      const card = createCard(value, uuid(), boardId);
 
-      addCourseMutation({
+      addCardMutation({
         variables: {
-          data: omitTemporaryFields(course, [CourseField.id])
+          data: omitTemporaryFields(card, [CardField.id])
         },
 
-        refetchQueries: ['Courses'],
+        refetchQueries: ['Cards'],
       });
 
       inputRef.current!.value = '';
@@ -74,39 +74,39 @@ const Courses: React.FC<Props & RouteComponentProps<MatchParams>> = ({ liveNotif
     liveNotification((message?.message || 'Card was deleted'));
   }
 
-  const deleteCourse = (id: string) => {
-    deleteCourseMutation({
+  const deleteCard = (id: string) => {
+    deleteCardMutation({
       variables: {
         id: { id },
       },
 
-      refetchQueries: ['Courses'],
+      refetchQueries: ['Cards'],
     }).then(_ => showNotificationAfterDelete()).catch(showNotificationAfterDelete);
   };
 
-  const updateCourse = (id: string, updatedData: Partial<FullUpdateMutationData>) => {
-    const course = courses.find(course => course.id === id);
+  const updateCard = (id: string, updatedData: Partial<FullUpdateMutationData>) => {
+    const card = cards.find(card => card.id === id);
 
-    if (!course) {
+    if (!card) {
       return;
     }
 
-    const { id: ID, __typename, ...rest } = course;
+    const { id: ID, __typename, ...rest } = card;
 
     const data = {
       ...rest,
       ...updatedData,
     };
 
-    updateCourseMutation({
+    updateCardMutation({
       variables: {
         id: { id },
         data,
       },
 
       optimisticResponse: {
-        __typename: "UpdateCourse",
-        updateCourse: {
+        __typename: "UpdateCard",
+        updateCard: {
           id: { id },
           title: data.title,
           description: data.description,
@@ -117,8 +117,8 @@ const Courses: React.FC<Props & RouteComponentProps<MatchParams>> = ({ liveNotif
     });
   };
 
-  const getCoursesByStatus = getCourses(courses);
-  const actions: CourseActions = { updateCourse, deleteCourse };
+  const getCardsByStatus = getCards(cards);
+  const actions: CardActions = { updateCard, deleteCard };
 
   return (
     <>
@@ -139,7 +139,7 @@ const Courses: React.FC<Props & RouteComponentProps<MatchParams>> = ({ liveNotif
           <List
             key={status}
             title={status}
-            items={getCoursesByStatus(status)}
+            items={getCardsByStatus(status)}
             actions={actions}
           />
         ))}
@@ -152,4 +152,4 @@ const mapDispatchToProps = {
   liveNotification,
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(Courses));
+export default withRouter(connect(null, mapDispatchToProps)(Cards));

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const CourseTitle = styled.span`
+export const CardTitle = styled.span`
   display: flex;
   padding: 4px;
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import { useQuery } from 'react-apollo';
-import { GET_ARCHIVE_COURSES } from './graphql/query/getArchive';
-import { CourseState, CoursesQuery } from '../Courses/Courses.entities';
+import { GET_ARCHIVE_CARDS } from './graphql/query/getArchive';
+import { CardState, CardsQuery } from '../Cards/Cards.entities';
 
 const Archive = () => {
-  const { loading, error, data } = useQuery<CoursesQuery>(GET_ARCHIVE_COURSES, {
+  const { loading, error, data } = useQuery<CardsQuery>(GET_ARCHIVE_CARDS, {
     variables: {
       data: {
-        state: CourseState.Archive,
+        state: CardState.Archive,
       },
     },
   });
@@ -20,15 +20,15 @@ const Archive = () => {
     return <div>Error</div>
   }
 
-  const { courses } = data!;
+  const { cards } = data!;
 
   return (
     <ul>
-      {courses.map(course => (
-        <li key={course.id}>
-          {course.title}
+      {cards.map(card => (
+        <li key={card.id}>
+          {card.title}
           <p>
-            {course.description}
+            {card.description}
           </p>
         </li>
       ))}

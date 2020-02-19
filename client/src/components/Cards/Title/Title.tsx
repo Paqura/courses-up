@@ -1,12 +1,12 @@
 import React, { useState, forwardRef, Ref } from 'react';
-import { CourseTitle } from './Title.styled';
+import { CardTitle } from './Title.styled';
 import { TextField, Button } from '@material-ui/core';
-import { Course, FullUpdateMutationData } from '../Courses.entities';
+import { Card, FullUpdateMutationData } from '../Cards.entities';
 
 interface Props {
   ref: Ref<HTMLInputElement> | null;
   change(id: string, data: Partial<FullUpdateMutationData>): void;
-  item: Course;
+  item: Card;
 }
 
 export const Title = forwardRef<HTMLInputElement, Props>(({ change, item }, ref) => {
@@ -30,9 +30,9 @@ export const Title = forwardRef<HTMLInputElement, Props>(({ change, item }, ref)
 
   if (!isEditorShown) {
     return (
-      <CourseTitle onClick={toggleEditor}>
+      <CardTitle onClick={toggleEditor}>
         {item.title}
-      </CourseTitle>
+      </CardTitle>
     );
   }
 

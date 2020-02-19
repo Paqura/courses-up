@@ -1,6 +1,6 @@
 import React, { useState, useRef, SyntheticEvent } from 'react';
-import { Course, CourseState, CourseActions } from '../Courses.entities';
-import { Controls, CourseItem } from './Item.styled';
+import { Card, CardState, CardActions } from '../Cards.entities';
+import { Controls, CardItem } from './Item.styled';
 import { Button } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -9,12 +9,12 @@ import { Title } from '../Title';
 import { AlertDialog } from '../AlertDialog';
 
 interface Props {
-  actions: CourseActions;
-  item: Course;
+  actions: CardActions;
+  item: Card;
 }
 
 const Item: React.FC<Props> = ({
-  actions: { updateCourse, deleteCourse },
+  actions: { updateCard, deleteCard },
   item
 }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -38,32 +38,32 @@ const Item: React.FC<Props> = ({
   };
 
   const onDelete = () => {
-    deleteCourse(item.id);
+    deleteCard(item.id);
   };
 
-  const onChangeStatus = (state: CourseState) => {
-    updateCourse(item.id, { state });
+  const onChangeStatus = (state: CardState) => {
+    updateCard(item.id, { state });
     setIsDropdownShown(false);
   };
 
   const MENU_ITEMS = [
-    { id: 'open', title: CourseState.Open, action: () => onChangeStatus(CourseState.Open) },
-    { id: 'progress', title: CourseState.Progress, action: () => onChangeStatus(CourseState.Progress) },
-    { id: 'done', title: CourseState.Done, action: () => onChangeStatus(CourseState.Done) },
-    { id: 'archive', title: CourseState.Archive, action: () => onChangeStatus(CourseState.Archive) },
+    { id: 'open', title: CardState.Open, action: () => onChangeStatus(CardState.Open) },
+    { id: 'progress', title: CardState.Progress, action: () => onChangeStatus(CardState.Progress) },
+    { id: 'done', title: CardState.Done, action: () => onChangeStatus(CardState.Done) },
+    { id: 'archive', title: CardState.Archive, action: () => onChangeStatus(CardState.Archive) },
   ].filter(it => it.title !== item.state);
 
   return (
-    <CourseItem>
+    <CardItem>
       <Title
         ref={titleInputRef}
-        change={updateCourse}
+        change={updateCard}
         item={item}
       />
 
       <Description
         ref={descriptionInputRef}
-        change={updateCourse}
+        change={updateCard}
         item={item}
       />
 
@@ -91,7 +91,7 @@ const Item: React.FC<Props> = ({
         close={toggleAlert}
         agreeAction={onDelete}
       />
-    </CourseItem>
+    </CardItem>
   );
 }
 

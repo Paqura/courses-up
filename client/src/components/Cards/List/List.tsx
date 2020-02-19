@@ -1,11 +1,11 @@
 import React from 'react';
-import { Course, CourseActions } from '../Courses.entities';
+import { Card, CardActions } from '../Cards.entities';
 import { Item } from '../Item';
 import { CourseList, Title, Header } from './List.styled';
 
 interface Props {
-  actions: CourseActions;
-  items: Course[];
+  actions: CardActions;
+  items: Card[];
   title: string;
 }
 

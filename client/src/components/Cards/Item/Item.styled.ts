@@ -5,7 +5,7 @@ export const Controls = styled.div`
   margin-top: 16px;
 `;
 
-export const CourseItem = styled.li`
+export const CardItem = styled.li`
   padding: 16px;
   border: 1px solid;
 
