@@ -1,4 +1,5 @@
 export interface Board {
+  id: string;
   uid: string;
   name: string;
 }

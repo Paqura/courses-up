@@ -8,14 +8,22 @@ import { push } from 'connected-react-router';
 import { GET_BOARDS } from './graphql/query/boards';
 import { Link } from 'react-router-dom';
 import { BoardsQuery } from './Boards.entities';
+import { DELETE_BOARD } from './graphql/mutation/delete';
+import { UPDATE_CARD_STATE } from './graphql/mutation/updateCardState';
+import { CardState } from '../Cards/Cards.entities';
 
 interface Props {
   replace(id: string): void;
 }
 
 const Board: React.FC<Props> = ({ replace }) => {
-  const { loading, error, data } = useQuery<BoardsQuery>(GET_BOARDS);
+  const { loading, error, data } = useQuery<BoardsQuery>(GET_BOARDS, {
+    fetchPolicy: 'no-cache',
+  });
+
   const [createBoardMutation] = useMutation(CREATE_BOARD);
+  const [deleteBoardMutation] = useMutation(DELETE_BOARD);
+  const [updateCardStateMutation] = useMutation(UPDATE_CARD_STATE);
 
   if (loading) {
     return <div>Loading...</div>
@@ -24,6 +32,8 @@ const Board: React.FC<Props> = ({ replace }) => {
   if (error) {
     return <div>Error</div>
   }
+
+  const { boards } = data!;
 
   const moveToBoardPage = (uid: string) => {
     replace(uid)
@@ -40,7 +50,26 @@ const Board: React.FC<Props> = ({ replace }) => {
     }).then(res => moveToBoardPage(res.data.createBoard.uid));
   };
 
-  const { boards } = data!;
+  const updateCardsState = (boardId: string) => {
+    updateCardStateMutation({
+      variables: {
+        data: {
+          state: CardState.Archive,
+        },
+        boardId: { boardId },
+      },
+    }).then(console.log);
+  };
+
+  const deleteBoard = (id: string, boardId: string) => {
+    deleteBoardMutation({
+      variables: {
+        id: { id }
+      },
+
+      refetchQueries: ['Boards'],
+    }).then(_ => updateCardsState(boardId));
+  };
 
   return (
     <div>
@@ -48,9 +77,11 @@ const Board: React.FC<Props> = ({ replace }) => {
         {boards.map(board => (
           <li key={board.uid}>
             <Link to={board.uid}>{board.name}</Link>
+            <Button onClick={_ => deleteBoard(board.id, board.uid)} variant="outlined" color="secondary">Delete</Button>
           </li>
         ))}
       </ul>
+
       <Button onClick={createBoard} color="primary">
         Create board
       </Button>

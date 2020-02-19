@@ -10,6 +10,8 @@ const Archive = () => {
         state: CardState.Archive,
       },
     },
+
+    fetchPolicy: 'no-cache',
   });
 
   if (loading) {

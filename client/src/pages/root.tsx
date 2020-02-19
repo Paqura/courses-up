@@ -21,7 +21,7 @@ export default () => {
           <BoardPage />
         </Route>
 
-        <Route path="/archive" exact>
+        <Route path="/archive/boards" exact>
           <Archive />
         </Route>
       </Switch>
