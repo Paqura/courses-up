@@ -44,7 +44,7 @@ describe('omitTemporaryFields', () => {
 
     const actual = omitTemporaryFields(card, [CardField.id]);
 
-    const expected = { title: 'title1', description: 'd1', state: CardState.Open,  __typename: 'Course' };
+    const expected: Omit<QueryCard, CardField.id> = { title: 'title1', description: 'd1', state: CardState.Open,  __typename: 'Card', boardId: '1' };
 
     expect(actual).toEqual(expected)
   });
