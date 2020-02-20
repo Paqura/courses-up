@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '@material-ui/core'
 import { CREATE_BOARD } from './graphql/mutation/create';
 import { useMutation, useQuery } from 'react-apollo';
@@ -14,6 +14,7 @@ import { QueryMap } from '../../utils/api';
 import { Board } from './Board';
 import { StateHandler } from '../shared/getStateHandler';
 import { List } from './Boards.styled';
+import { FormDialog } from './FormDialog';
 
 interface Props {
   replace(id: string): void;
@@ -28,12 +29,14 @@ const Boards: React.FC<Props> = ({ replace }) => {
   const [deleteBoardMutation] = useMutation(DELETE_BOARD);
   const [updateCardStateMutation] = useMutation(UPDATE_CARD_STATE);
 
-  const createBoard = () => {
+  const [isFormDialogShown, setIsFormDialogShown] = useState(false);
+
+  const createBoard = (name: string) => {
     createBoardMutation({
       variables: {
         data: {
           uid: uuid(),
-          name: 'Unnamed',
+          name,
         },
       },
     }).then(res => replace(res.data.createBoard.uid));
@@ -62,6 +65,10 @@ const Boards: React.FC<Props> = ({ replace }) => {
     }).then(_ => updateCardsState(boardId));
   };
 
+  const toggleFormDialog = () => {
+    setIsFormDialogShown(!isFormDialogShown);
+  };
+
   if (error || loading) {
     return <StateHandler loading={loading} error={error} />;
   }
@@ -74,7 +81,13 @@ const Boards: React.FC<Props> = ({ replace }) => {
         ))}
       </List>
 
-      <Button onClick={createBoard} color="primary" variant="contained">
+      <FormDialog
+        isOpen={isFormDialogShown}
+        save={createBoard}
+        close={toggleFormDialog}
+      />
+
+      <Button onClick={toggleFormDialog} color="primary" variant="contained">
         Create board
       </Button>
     </>
