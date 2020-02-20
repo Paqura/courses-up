@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { Description } from '../Description';
 import { Title } from '../Title';
 import { AlertDialog } from '../AlertDialog';
+import { Priority } from '../Priority';
 
 interface Props {
   actions: CardActions;
@@ -83,6 +84,8 @@ const Item: React.FC<Props> = ({
           ))}
         </Menu>
       </Controls>
+
+      <Priority />
 
       <AlertDialog
         isOpen={isAlertOpen}
