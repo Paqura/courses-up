@@ -24,13 +24,16 @@ export const AlertDialog: React.FC<Props> = ({ agreeAction, isOpen, description,
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+
         <DialogContent>
           <DialogContentText id="alert-dialog-description">{description}</DialogContentText>
         </DialogContent>
+
         <DialogActions>
           <Button onClick={close} color="secondary">
             Cancel
           </Button>
+
           <Button onClick={agreeAction} color="primary" autoFocus>
             Agree
           </Button>

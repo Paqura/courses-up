@@ -66,7 +66,7 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
       },
 
       refetchQueries: [QueryMap.Cards],
-    }).then(_ => showNotificationAfterDelete()).catch(showNotificationAfterDelete);
+    }).then(showNotificationAfterDelete).catch(showNotificationAfterDelete);
   };
 
   const updateCard = (id: string, updatedData: Partial<FullUpdateMutationData>) => {

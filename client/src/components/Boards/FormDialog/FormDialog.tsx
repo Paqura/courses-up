@@ -28,6 +28,7 @@ const FormDialog: React.FC<Props> = ({ close, isOpen, save, defaults }) => {
   return (
     <Dialog open={isOpen} onClose={close} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+
       <DialogContent>
         <TextField
           autoFocus
@@ -40,10 +41,12 @@ const FormDialog: React.FC<Props> = ({ close, isOpen, save, defaults }) => {
           defaultValue={defaults?.name}
         />
       </DialogContent>
+
       <DialogActions>
         <Button onClick={close} color="primary">
           Cancel
         </Button>
+
         <Button onClick={onSave} color="primary">
           Save
         </Button>
