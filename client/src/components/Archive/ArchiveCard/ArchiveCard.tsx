@@ -7,9 +7,10 @@ interface Props {
 
 const ArchiveCard: React.FC<Props> = ({ card }) => (
   <li key={card.id}>
-    {card.title}
+    <h5>{card.title}</h5>
+
     <p>
-      {card.description}
+      {card.description || 'No description'}
     </p>
   </li>
 );
