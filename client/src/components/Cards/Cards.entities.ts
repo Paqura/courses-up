@@ -5,12 +5,19 @@ export enum CardState {
   Progress = 'Progress',
 }
 
+export enum Priority {
+  Epic = 'Epic',
+  Low = 'Low',
+  High = 'High',
+}
+
 export enum CardField {
   boardId = 'boardId',
   id ='id',
   title = 'title',
   description = 'description',
   state = 'state',
+  priority = 'priority',
 }
 
 export interface Card {
@@ -19,6 +26,7 @@ export interface Card {
   [CardField.description]: string;
   [CardField.state]: CardState;
   [CardField.boardId]: string;
+  [CardField.priority]: Priority;
 }
 
 export interface CardActions {

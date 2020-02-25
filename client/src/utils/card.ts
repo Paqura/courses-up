@@ -1,4 +1,4 @@
-import { Card, CardState } from "../components/Cards/Cards.entities";
+import { Card, CardState, Priority } from "../components/Cards/Cards.entities";
 
 export const createCard = (value: string, id: string, boardId: string): Card => ({
   id,
@@ -6,6 +6,7 @@ export const createCard = (value: string, id: string, boardId: string): Card => 
   description: '',
   state: CardState.Open,
   boardId,
+  priority: Priority.Low,
 });
 
 export const getCards = (cards: Card[]) => (state: CardState) =>

@@ -7,6 +7,8 @@ export const GET_CARDS = gql`
       title
       description
       state
+      boardId
+      priority
     }
   }
 `;

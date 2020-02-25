@@ -85,7 +85,12 @@ const Item: React.FC<Props> = ({
         </Menu>
       </Controls>
 
-      <Priority />
+      {/* TODO create the state of priority editor */}
+      {/* color for each of the state */}
+      {/* <Priority /> */}
+      <span>
+        priority: {item.priority}
+      </span>
 
       <AlertDialog
         isOpen={isAlertOpen}
