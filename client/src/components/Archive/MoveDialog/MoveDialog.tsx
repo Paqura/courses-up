@@ -54,7 +54,7 @@ const MoveDialog: React.FC<Props> = ({ boards, close, isOpen, save }) => {
             value={id || ''}
           >
             {boards.map(board => (
-              <MenuItem key={board.id} value={board.id}>{board.name}</MenuItem>
+              <MenuItem key={board.id} value={board.uid}>{board.name}</MenuItem>
             ))}
           </Select>
         </FormControl>

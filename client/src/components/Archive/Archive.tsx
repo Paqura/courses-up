@@ -1,11 +1,12 @@
 import React from 'react';
 import { useQuery, useMutation } from 'react-apollo';
 import { GET_ARCHIVE_CARDS } from './graphql/query/getArchive';
-import { CardsQuery } from '../Cards/Cards.entities';
+import { CardsQuery, CardState } from '../Cards/Cards.entities';
 import { queryOptions } from './Archive.utils';
 import { ArchiveCard } from './ArchiveCard';
 import { StateHandler } from '../shared/getStateHandler';
 import { UPDATE_CARD } from '../Cards/graphql/mutations/updateCard';
+import { QueryMap } from '../../utils/api';
 
 const Archive = () => {
   const { loading, error, data } = useQuery<CardsQuery>(GET_ARCHIVE_CARDS, queryOptions);
@@ -17,16 +18,17 @@ const Archive = () => {
   }
 
   const moveCardToBoard = (boardId: string, cardId: string) => {
-    console.log(boardId);
-
     updateCardMutation({
       variables: {
         data: {
           boardId,
+          state: CardState.Open,
         },
 
         id: { id: cardId }
       },
+
+      refetchQueries: [QueryMap.Cards],
     });
   };
 

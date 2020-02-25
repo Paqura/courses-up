@@ -7,6 +7,7 @@ export const UPDATE_CARD = gql`
       title
       description
       state
+      boardId
       __typename
     }
   }
