@@ -1,10 +1,11 @@
 import React, { FormEvent } from 'react';
 
 interface Props {
+  className?: string;
   onSubmit?(evt: FormEvent): void;
 }
 
-const Form: React.FC<Props> = ({ children, onSubmit }) => {
+const Form: React.FC<Props> = ({ className, children, onSubmit }) => {
   const submit = (evt: FormEvent) => {
     evt.preventDefault();
 
@@ -14,7 +15,7 @@ const Form: React.FC<Props> = ({ children, onSubmit }) => {
   };
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={submit} className={className}>
       {children}
     </form>
   );

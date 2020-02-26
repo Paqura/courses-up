@@ -7,6 +7,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { Description } from '../Description';
 import { Title } from '../Title';
 import { AlertDialog } from '../AlertDialog';
+import { SidebarEditor } from '../../shared/SidebarEditor';
+import { Edit } from '../Edit';
 
 interface Props {
   actions: CardActions;
@@ -17,12 +19,8 @@ const Item: React.FC<Props> = ({
   actions: { updateCard, deleteCard },
   item,
 }) => {
+  const [isEdit, setIsEdit] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [isDropdownShown, setIsDropdownShown] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const titleInputRef = useRef<HTMLInputElement>(null);
-  const descriptionInputRef = React.useRef<HTMLTextAreaElement>(null);
 
   const openAlert = () => {
     setIsAlertOpen(true);
@@ -32,56 +30,33 @@ const Item: React.FC<Props> = ({
     setIsAlertOpen(!isAlertOpen);
   };
 
-  const toggleDropdown = (evt: SyntheticEvent<HTMLButtonElement>) => {
-    setIsDropdownShown(!isDropdownShown);
-    setAnchorEl(evt.currentTarget);
-  };
-
   const onDelete = () => {
     deleteCard(item.id);
   };
 
-  const onChangeStatus = (state: CardState) => {
-    updateCard(item.id, { state });
-    setIsDropdownShown(false);
-  };
-
-  const MENU_ITEMS = [
-    { id: 'open', title: CardState.Open, action: () => onChangeStatus(CardState.Open) },
-    { id: 'progress', title: CardState.Progress, action: () => onChangeStatus(CardState.Progress) },
-    { id: 'done', title: CardState.Done, action: () => onChangeStatus(CardState.Done) },
-    { id: 'archive', title: CardState.Archive, action: () => onChangeStatus(CardState.Archive) },
-  ].filter(it => it.title !== item.state);
-
   return (
     <CardItem>
       <Title
-        ref={titleInputRef}
         change={updateCard}
         item={item}
       />
 
       <Description
-        ref={descriptionInputRef}
         change={updateCard}
         item={item}
       />
 
+      <SidebarEditor
+        isShown={isEdit}
+        close={() => setIsEdit(!isEdit)}
+      >
+        <Edit />
+      </SidebarEditor>
+
       <Controls>
         <Button onClick={openAlert} color="secondary" variant="outlined" size="small">Delete</Button>
-        <Button onClick={toggleDropdown} variant="outlined" size="small" style={{ marginLeft: '16px' }}>Status</Button>
-
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={isDropdownShown}
-          onClose={toggleDropdown}
-        >
-          {MENU_ITEMS.map(item => (
-            <MenuItem key={item.id} onClick={item.action}>{item.title}</MenuItem>
-          ))}
-        </Menu>
+        {/* TODO move styles to useStyles from material */}
+        <Button onClick={() => setIsEdit(!isEdit)} variant="outlined" size="small" style={{ marginLeft: '16px' }}>Edit</Button>
       </Controls>
 
       {/* TODO create the state of priority editor */}
