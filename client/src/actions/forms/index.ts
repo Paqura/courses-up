@@ -5,9 +5,12 @@ export const PREFIX = '@forms';
 
 type Fields = Partial<FullUpdateMutationData>;
 
+export enum FormName {
+  Card = 'card',
+};
 export interface UpdateFormPayload {
-  name: string;
-  fields: Partial<FullUpdateMutationData>;
+  name: FormName;
+  fields: Fields;
 }
 
 export interface UpdateFormAction {
@@ -15,7 +18,7 @@ export interface UpdateFormAction {
   type: typeof updateForm.type;
 }
 
-export const updateForm = createAction(`${PREFIX}/UPDATE`, (name: string, fields: Fields) => ({
+export const updateForm = createAction(`${PREFIX}/UPDATE`, (name: FormName, fields: Fields) => ({
   payload: { name, fields },
 }));
 
