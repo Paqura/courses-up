@@ -36,22 +36,15 @@ const Item: React.FC<Props> = ({
 
   return (
     <CardItem>
-      <Title
-        change={updateCard}
-        item={item}
-      />
+      <Title title={item.title} />
+      <Description description={item.description}/>
 
-      <Description
-        change={updateCard}
-        item={item}
-      />
-
-      <SidebarEditor
-        isShown={isEdit}
+      {isEdit && <SidebarEditor
         close={() => setIsEdit(!isEdit)}
+        save={() => {}}
       >
-        <Edit />
-      </SidebarEditor>
+        <Edit cardId={item.id} />
+      </SidebarEditor>}
 
       <Controls>
         <Button onClick={openAlert} color="secondary" variant="outlined" size="small">Delete</Button>

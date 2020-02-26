@@ -6,7 +6,3 @@ export const DescriptionText = styled.p`
   background-color: #e7e7e7;
   word-break: break-all;
 `;
-
-export const EditorWrapper = styled.div`
-  display: flex;
-`;
