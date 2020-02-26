@@ -4,7 +4,7 @@ import { Snackbar } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { RootState } from '../redux/configureStore';
 import { removeNotification, liveNotification } from '../actions/notification';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 
 const TIME_TO_HIDE_MESSAGE = 6000;
 
@@ -18,12 +18,12 @@ interface Props {
   liveNotification(message: string): void;
 }
 
-const BoardPage: React.FC<Props & RouteComponentProps<MatchParams>> = ({
+const BoardPage: React.FC<Props> = ({
   liveNotification,
   removeNotification,
-  match,
   message,
 }) => {
+  const match = useRouteMatch<MatchParams>();
   const [isShownNotification, setIsShowNotification] = useState(false);
 
   useEffect(() => {
@@ -67,4 +67,4 @@ const mapDispatchToProps = {
   liveNotification,
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BoardPage));
+export default connect(mapStateToProps, mapDispatchToProps)(BoardPage);

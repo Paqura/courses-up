@@ -17,6 +17,12 @@ const Archive = () => {
     return <StateHandler loading={loading} error={error} />;
   }
 
+  const cards = data?.cards ?? [];
+
+  if (cards.length === 0) {
+    return <div>No cards in archive</div>;
+  }
+
   const moveCardToBoard = (boardId: string, cardId: string) => {
     updateCardMutation({
       variables: {
@@ -34,7 +40,7 @@ const Archive = () => {
 
   return (
     <ul>
-      {data && data.cards.map(card => (
+      {cards.map(card => (
         <ArchiveCard key={card.id} card={card} move={moveCardToBoard} />
       ))}
 
