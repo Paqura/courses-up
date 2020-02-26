@@ -49,6 +49,5 @@ const SidebarEditor: React.FC<Props> = ({ close, children, save, formData }) => 
 };
 
 export default connect((state: RootState, ownProps: OwnProps) => ({
-  // @ts-ignore
   formData: state.forms[ownProps.formName],
 }))(SidebarEditor);

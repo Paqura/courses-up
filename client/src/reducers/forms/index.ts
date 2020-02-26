@@ -1,13 +1,18 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { updateForm } from "../../actions/forms";
+import { updateForm, UpdateFormAction } from "../../actions/forms";
+import { FullUpdateMutationData } from "../../components/Cards/Cards.entities";
 
-const initialState = {};
+interface UpdateFormState {
+  [key: string]: Partial<FullUpdateMutationData>;
+}
+
+const initialState = {} as UpdateFormState;
 
 export const formReducer = createReducer(initialState, {
-  [updateForm.type]: (state, action) => ({
+  [updateForm.type]: (state, action: UpdateFormAction) => ({
     ...state,
+
     [action.payload.name]: {
-      // @ts-ignore
       ...state[action.payload.name],
       ...action.payload.fields,
     },

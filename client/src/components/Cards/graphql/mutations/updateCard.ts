@@ -8,6 +8,7 @@ export const UPDATE_CARD = gql`
       description
       state
       boardId
+      priority
       __typename
     }
   }
