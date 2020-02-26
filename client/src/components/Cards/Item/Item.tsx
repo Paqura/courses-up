@@ -9,6 +9,7 @@ import { SidebarEditor } from '../../shared/SidebarEditor';
 import { Edit } from '../Edit';
 import { useMutation } from 'react-apollo';
 import { UPDATE_CARD } from '../graphql/mutations/updateCard';
+import { FormName } from '../../../actions/forms';
 
 interface Props {
   actions: CardActions;
@@ -16,7 +17,7 @@ interface Props {
 }
 
 const Item: React.FC<Props> = ({
-  actions: { updateCard, deleteCard },
+  actions: { deleteCard },
   item,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -52,7 +53,7 @@ const Item: React.FC<Props> = ({
       {isEdit && <SidebarEditor
         close={() => setIsEdit(!isEdit)}
         save={onUpdate}
-        formName="card"
+        formName={FormName.Card}
       >
         <Edit cardId={item.id} />
       </SidebarEditor>}

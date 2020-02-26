@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { CardField, FullUpdateMutationData, CardActions, CardsQuery } from './Cards.entities';
+import { CardField, CardActions, CardsQuery } from './Cards.entities';
 import { List } from './List';
 import uuid from 'uuid';
 import { createCard, getCards, omitTemporaryFields } from '../../utils/card';
@@ -12,7 +12,6 @@ import { useMutation, useQuery } from '@apollo/react-hooks';
 import { ADD_CARD } from './graphql/mutations/addCard';
 import { GET_CARDS } from './graphql/query/cards';
 import { DELETE_CARD } from './graphql/mutations/deleteCard';
-import { UPDATE_CARD } from './graphql/mutations/updateCard';
 import { QueryMap } from '../../utils/api';
 import { STATES } from './Cards.utils';
 import { StateHandler } from '../shared/getStateHandler';
@@ -31,7 +30,6 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
 
   const [addCardMutation] = useMutation(ADD_CARD);
   const [deleteCardMutation] = useMutation(DELETE_CARD);
-  const [updateCardMutation] = useMutation(UPDATE_CARD);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -69,42 +67,8 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
     }).then(_ => showNotificationAfterDelete()).catch(showNotificationAfterDelete);
   };
 
-  const updateCard = (id: string, updatedData: Partial<FullUpdateMutationData>) => {
-    const card = cards.find(card => card.id === id);
-
-    if (!card) {
-      return;
-    }
-
-    const { id: ID, __typename, ...rest } = card;
-
-    const data = {
-      ...rest,
-      ...updatedData,
-    };
-
-    updateCardMutation({
-      variables: {
-        id: { id },
-        data,
-      },
-
-      optimisticResponse: {
-        __typename: "UpdateCard",
-
-        updateCard: {
-          id: { id },
-          title: data.title,
-          description: data.description,
-          state: data.state,
-          __typename
-        }
-      }
-    });
-  };
-
   const getCardsByState = getCards(cards);
-  const actions: CardActions = { updateCard, deleteCard };
+  const actions: CardActions = { deleteCard };
 
   if (error || loading) {
     return <StateHandler loading={loading} error={error} />;

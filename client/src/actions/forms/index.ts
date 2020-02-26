@@ -21,5 +21,3 @@ export interface UpdateFormAction {
 export const updateForm = createAction(`${PREFIX}/UPDATE`, (name: FormName, fields: Fields) => ({
   payload: { name, fields },
 }));
-
-export type FormAction = UpdateFormAction;

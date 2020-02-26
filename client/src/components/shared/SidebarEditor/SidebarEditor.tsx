@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { RootState } from '../../../redux/configureStore';
 import { FullUpdateMutationData } from '../../Cards/Cards.entities';
 import { ExecutionResult } from 'react-apollo';
+import { FormName } from '../../../actions/forms';
 
 interface ReduxState {
   formData: Partial<FullUpdateMutationData>;
@@ -14,7 +15,7 @@ interface ReduxState {
 interface OwnProps {
   close(): void;
   save(formData: Partial<FullUpdateMutationData>): Promise<ExecutionResult<any>>;
-  formName: string;
+  formName: FormName;
   children: ReactNode;
 }
 
@@ -48,6 +49,8 @@ const SidebarEditor: React.FC<Props> = ({ close, children, save, formData }) => 
   )
 };
 
-export default connect((state: RootState, ownProps: OwnProps) => ({
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   formData: state.forms[ownProps.formName],
-}))(SidebarEditor);
+});
+
+export default connect(mapStateToProps)(SidebarEditor);

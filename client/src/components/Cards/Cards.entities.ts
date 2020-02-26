@@ -31,7 +31,6 @@ export interface Card {
 
 export interface CardActions {
   deleteCard(id: string): void;
-  updateCard(id: string, updatedData: Partial<FullUpdateMutationData>): void;
 }
 
 export type QueryCard = Card & { __typename: string };
