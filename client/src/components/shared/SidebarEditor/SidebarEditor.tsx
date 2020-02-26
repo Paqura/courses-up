@@ -1,22 +1,32 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, ReactNode } from 'react';
 import { Backdrop, DialogActions, Button } from '@material-ui/core';
 import { Form } from '../Form';
 import { useStyles } from './SidebarEditor.styled';
+import { connect } from 'react-redux';
+import { RootState } from '../../../redux/configureStore';
+import { FullUpdateMutationData } from '../../Cards/Cards.entities';
+import { ExecutionResult } from 'react-apollo';
 
-interface Props {
-  close(): void;
-  // TODO
-  save: any;
+interface ReduxState {
+  formData: Partial<FullUpdateMutationData>;
 }
 
-const SidebarEditor: React.FC<Props> = ({ close, children, save }) => {
+interface OwnProps {
+  close(): void;
+  save(formData: Partial<FullUpdateMutationData>): Promise<ExecutionResult<any>>;
+  formName: string;
+  children: ReactNode;
+}
+
+type Props = ReduxState & OwnProps;
+
+const SidebarEditor: React.FC<Props> = ({ close, children, save, formData }) => {
   const classes = useStyles();
 
   const onSave = (evt: MouseEvent) => {
     evt.stopPropagation();
 
-    // after all of actions
-    save();
+    save(formData).then(close);
   };
 
   return (
@@ -38,4 +48,7 @@ const SidebarEditor: React.FC<Props> = ({ close, children, save }) => {
   )
 };
 
-export default SidebarEditor;
+export default connect((state: RootState, ownProps: OwnProps) => ({
+  // @ts-ignore
+  formData: state.forms[ownProps.formName],
+}))(SidebarEditor);

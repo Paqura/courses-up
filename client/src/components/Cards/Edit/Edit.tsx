@@ -1,13 +1,16 @@
-import React, { ChangeEvent, useState, useEffect } from 'react';
+import React, { ChangeEvent } from 'react';
 import { EditorTitle, useStyles } from './Edit.styled';
 import { FormControl, TextField, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { useQuery } from 'react-apollo';
 import { GET_CARD } from '../graphql/query/card';
 import { Card, CardState, Priority, CardField } from '../Cards.entities';
 import { StateHandler } from '../../shared/getStateHandler';
+import { connect } from 'react-redux';
+import { updateForm } from '../../../actions/forms';
 
 interface Props {
   cardId: string;
+  updateForm(name: string, fields: any): void;
 }
 
 export interface CardQuery {
@@ -24,17 +27,8 @@ export interface ChangeParams {
   value?: unknown;
 }
 
-export const initialState = {
-  title: '',
-  description: '',
-  state: '',
-  priority: '',
-};
-
-const Edit: React.FC<Props> = ({ cardId }) => {
+const Edit: React.FC<Props> = ({ cardId, updateForm }) => {
   const classes = useStyles();
-
-  const [formData, setFormData] = useState(initialState);
 
   const { loading, error, data } = useQuery<CardQuery>(GET_CARD, {
     variables: {
@@ -43,23 +37,6 @@ const Edit: React.FC<Props> = ({ cardId }) => {
   });
 
   const card = data?.card;
-
-  useEffect(() => {
-    if (!card) {
-      return;
-    }
-
-    setFormData({
-      title: card.title,
-      description: card.description,
-      state: card.state,
-      priority: card.priority,
-    });
-  }, [card]);
-
-  if (!card) {
-    return null;
-  }
 
   if (loading || error) {
     return <StateHandler loading={loading} error={error} />;
@@ -75,11 +52,14 @@ const Edit: React.FC<Props> = ({ cardId }) => {
       return;
     }
 
-    setFormData(formData => ({
-      ...formData,
+    updateForm('card', {
       [name]: value,
-    }));
+    });
   };
+
+  if (!card) {
+    return null;
+  }
 
   return (
     <>
@@ -137,4 +117,4 @@ const Edit: React.FC<Props> = ({ cardId }) => {
   )
 };
 
-export default Edit;
+export default connect(null, { updateForm })(Edit);

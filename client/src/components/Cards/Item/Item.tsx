@@ -7,6 +7,8 @@ import { Title } from '../Title';
 import { AlertDialog } from '../AlertDialog';
 import { SidebarEditor } from '../../shared/SidebarEditor';
 import { Edit } from '../Edit';
+import { useMutation } from 'react-apollo';
+import { UPDATE_CARD } from '../graphql/mutations/updateCard';
 
 interface Props {
   actions: CardActions;
@@ -19,6 +21,7 @@ const Item: React.FC<Props> = ({
 }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [updateCardMutation] = useMutation(UPDATE_CARD);
 
   const openAlert = () => {
     setIsAlertOpen(true);
@@ -32,6 +35,15 @@ const Item: React.FC<Props> = ({
     deleteCard(item.id);
   };
 
+  const onUpdate = (data: any) => {
+    return updateCardMutation({
+      variables: {
+        data,
+        id: { id: item.id }
+      },
+    });
+  };
+
   return (
     <CardItem>
       <Title title={item.title} />
@@ -39,7 +51,8 @@ const Item: React.FC<Props> = ({
 
       {isEdit && <SidebarEditor
         close={() => setIsEdit(!isEdit)}
-        save={() => {}}
+        save={onUpdate}
+        formName="card"
       >
         <Edit cardId={item.id} />
       </SidebarEditor>}

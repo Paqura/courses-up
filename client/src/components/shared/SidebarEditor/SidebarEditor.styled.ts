@@ -15,7 +15,8 @@ export const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       background: '#fff',
       padding: '16px',
-      border: '2px solid #aaaae3',
+      border: '4px solid #aaaae3',
+      borderLeft: '40px solid #aaaae3',
     },
   }),
 );
