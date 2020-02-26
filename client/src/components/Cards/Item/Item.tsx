@@ -1,9 +1,7 @@
-import React, { useState, useRef, SyntheticEvent } from 'react';
-import { Card, CardState, CardActions } from '../Cards.entities';
+import React, { useState } from 'react';
+import { Card, CardActions } from '../Cards.entities';
 import { Controls, CardItem } from './Item.styled';
 import { Button } from '@material-ui/core';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import { Description } from '../Description';
 import { Title } from '../Title';
 import { AlertDialog } from '../AlertDialog';

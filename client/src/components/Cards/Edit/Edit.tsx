@@ -1,21 +1,40 @@
-import React from 'react';
+import React, { ChangeEvent, useState, useEffect } from 'react';
 import { EditorTitle, useStyles } from './Edit.styled';
 import { FormControl, TextField, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { useQuery } from 'react-apollo';
 import { GET_CARD } from '../graphql/query/card';
+import { Card, CardState, Priority, CardField } from '../Cards.entities';
 import { StateHandler } from '../../shared/getStateHandler';
-import { Card, CardState, Priority } from '../Cards.entities';
 
 interface Props {
   cardId: string;
 }
 
-interface CardQuery {
+export interface CardQuery {
   card: Card;
 }
 
+export const STATES = [CardState.Archive, CardState.Done, CardState.Open, CardState.Progress];
+export const PRIORITIES = [Priority.Low, Priority.High, Priority.Epic];
+
+export type FormField = keyof typeof CardField;
+
+export interface ChangeParams {
+  name?: string | FormField;
+  value?: unknown;
+}
+
+export const initialState = {
+  title: '',
+  description: '',
+  state: '',
+  priority: '',
+};
+
 const Edit: React.FC<Props> = ({ cardId }) => {
   const classes = useStyles();
+
+  const [formData, setFormData] = useState(initialState);
 
   const { loading, error, data } = useQuery<CardQuery>(GET_CARD, {
     variables: {
@@ -23,17 +42,44 @@ const Edit: React.FC<Props> = ({ cardId }) => {
     },
   });
 
-  if (loading || error) {
-    return <StateHandler loading={loading} error={error} />;
-  }
-
   const card = data?.card;
+
+  useEffect(() => {
+    if (!card) {
+      return;
+    }
+
+    setFormData({
+      title: card.title,
+      description: card.description,
+      state: card.state,
+      priority: card.priority,
+    });
+  }, [card]);
 
   if (!card) {
     return null;
   }
 
-  console.log(card)
+  if (loading || error) {
+    return <StateHandler loading={loading} error={error} />;
+  }
+
+  const createDropdown = (items: (CardState | Priority)[]): React.ReactNode[] =>
+    items.map(item => <MenuItem key={item} value={item}>{item}</MenuItem>);
+
+  const formChange = (evt: ChangeEvent<ChangeParams>) => {
+    const { name, value } = evt.target;
+
+    if (!name || !value) {
+      return;
+    }
+
+    setFormData(formData => ({
+      ...formData,
+      [name]: value,
+    }));
+  };
 
   return (
     <>
@@ -42,11 +88,23 @@ const Edit: React.FC<Props> = ({ cardId }) => {
       </header>
 
       <FormControl className={classes.control}>
-        <TextField id="standard-basic" label="Title" defaultValue={card.title} />
+        <TextField
+          id="standard-basic"
+          label="Title"
+          defaultValue={card.title}
+          onChange={formChange}
+          name={CardField.title}
+        />
       </FormControl>
 
       <FormControl className={classes.control}>
-        <TextField id="standard-description" label="Description" defaultValue={card.description} />
+        <TextField
+          id="standard-description"
+          label="Description"
+          defaultValue={card.description}
+          onChange={formChange}
+          name={CardField.description}
+        />
       </FormControl>
 
       <FormControl className={classes.control}>
@@ -54,15 +112,11 @@ const Edit: React.FC<Props> = ({ cardId }) => {
 
         <Select
           labelId="state"
-          id="state"
-          value={card.state}
-          onChange={() => { }}
+          defaultValue={card.state}
+          onChange={formChange}
+          name={CardField.state}
         >
-          {[CardState.Archive, CardState.Done, CardState.Open, CardState.Progress]
-            .filter(state => state !== card.state)
-            .map(state => (
-              <MenuItem key={state} value={state}>{state}</MenuItem>
-            ))}
+          {createDropdown(STATES)}
         </Select>
       </FormControl>
 
@@ -73,13 +127,10 @@ const Edit: React.FC<Props> = ({ cardId }) => {
           labelId="priority"
           id="priority"
           defaultValue={card.priority}
-          onChange={() => { }}
+          onChange={formChange}
+          name={CardField.priority}
         >
-          {[Priority.Low, Priority.High, Priority.Epic]
-            .filter(priority => priority !== card.priority)
-            .map(priority => (
-              <MenuItem key={priority} value={priority}>{priority}</MenuItem>
-            ))}
+          {createDropdown(PRIORITIES)}
         </Select>
       </FormControl>
     </>
