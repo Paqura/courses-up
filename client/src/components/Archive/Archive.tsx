@@ -8,7 +8,11 @@ import { StateHandler } from '../shared/getStateHandler';
 import { UPDATE_CARD } from '../Cards/graphql/mutations/updateCard';
 import { QueryMap } from '../../utils/api';
 
-const Archive = () => {
+interface Props {
+  liveNotification(message: string): void;
+}
+
+const Archive: React.FC<Props> = ({ liveNotification }) => {
   const { loading, error, data } = useQuery<CardsQuery>(GET_ARCHIVE_CARDS, queryOptions);
 
   const [updateCardMutation] = useMutation(UPDATE_CARD);
@@ -41,7 +45,12 @@ const Archive = () => {
   return (
     <ul>
       {cards.map(card => (
-        <ArchiveCard key={card.id} card={card} move={moveCardToBoard} />
+        <ArchiveCard
+          key={card.id}
+          card={card}
+          move={moveCardToBoard}
+          liveNotification={liveNotification}
+        />
       ))}
     </ul>
   )

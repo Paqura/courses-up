@@ -54,7 +54,7 @@ const RootPage: React.FC<Props> = ({ message, liveNotification, removeNotificati
         </Route>
 
         <Route path="/archive/boards" exact>
-          <Archive />
+          <Archive liveNotification={liveNotification} />
         </Route>
       </Switch>
 

@@ -12,9 +12,10 @@ import { Title } from '../../shared/Title';
 interface Props {
   card: Card;
   move(boardId: string, cardId: string): Promise<ExecutionResult<Card>>;
+  liveNotification(message: string): void;
 }
 
-const ArchiveCard: React.FC<Props> = ({ card, move }) => {
+const ArchiveCard: React.FC<Props> = ({ card, move, liveNotification }) => {
   const { loading, error, data } = useQuery<BoardsQuery>(GET_BOARDS);
 
   const [isMoveModalShown, setIsMoveModalShown] = useState(false);
@@ -25,8 +26,15 @@ const ArchiveCard: React.FC<Props> = ({ card, move }) => {
 
   const boards = data?.boards ?? [];
 
-  const onMove = (boardId: string) => {
-    move(boardId, card.id).then(toggleMoveModal);
+  const onMove = async (boardId: string) => {
+    try {
+      await move(boardId, card.id);
+      liveNotification(`Card: ${card.title} was moved`);
+    } catch (error) {
+      liveNotification(error.message || error);
+    } finally {
+      toggleMoveModal();
+    }
   };
 
   const toggleMoveModal = () => {
