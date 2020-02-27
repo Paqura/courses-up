@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import { Card } from '../../Cards/Cards.entities';
 import { Button } from '@material-ui/core';
-import { useQuery } from 'react-apollo';
+import { useQuery, ExecutionResult } from 'react-apollo';
 import { GET_BOARDS } from '../../Boards/graphql/query/boards';
 import { StateHandler } from '../../shared/getStateHandler';
 import { BoardsQuery } from '../../Boards/Boards.entities';
 import { MoveDialog } from '../MoveDialog';
+import { Description } from '../../shared/Description';
+import { Title } from '../../shared/Title';
 
 interface Props {
   card: Card;
-  move(boardId: string, cardId: string): void;
+  move(boardId: string, cardId: string): Promise<ExecutionResult<Card>>;
 }
 
 const ArchiveCard: React.FC<Props> = ({ card, move }) => {
@@ -21,11 +23,10 @@ const ArchiveCard: React.FC<Props> = ({ card, move }) => {
     return <StateHandler error={error} loading={loading} />
   }
 
-  const boards = data?.boards || [];
+  const boards = data?.boards ?? [];
 
   const onMove = (boardId: string) => {
-    move(boardId, card.id);
-    toggleMoveModal();
+    move(boardId, card.id).then(toggleMoveModal);
   };
 
   const toggleMoveModal = () => {
@@ -34,15 +35,17 @@ const ArchiveCard: React.FC<Props> = ({ card, move }) => {
 
   return (
     <li key={card.id}>
-      <h5>{card.title}</h5>
-
-      <p>
-        {card.description || 'No description'}
-      </p>
+      <Title title={card.title} />
+      <Description description={card.description} />
 
       <Button onClick={toggleMoveModal}>Move to board</Button>
 
-      <MoveDialog isOpen={isMoveModalShown} close={toggleMoveModal} boards={boards} save={onMove} />
+      <MoveDialog
+        isOpen={isMoveModalShown}
+        close={toggleMoveModal}
+        boards={boards}
+        save={onMove}
+      />
     </li>
   );
 };

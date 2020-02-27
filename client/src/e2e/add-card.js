@@ -1,6 +1,9 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 
+// DEPRECATED
+// JUST THE EXAMPLE
+
 const pathToScreenShots = './src/e2e/screenshots/';
 const createShotPath = name => path.join(pathToScreenShots, `${name}.png`);
 

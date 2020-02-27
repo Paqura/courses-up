@@ -24,7 +24,7 @@ const Archive = () => {
   }
 
   const moveCardToBoard = (boardId: string, cardId: string) => {
-    updateCardMutation({
+    return updateCardMutation({
       variables: {
         data: {
           boardId,
@@ -43,7 +43,6 @@ const Archive = () => {
       {cards.map(card => (
         <ArchiveCard key={card.id} card={card} move={moveCardToBoard} />
       ))}
-
     </ul>
   )
 };
