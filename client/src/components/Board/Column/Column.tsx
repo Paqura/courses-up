@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardActions } from '../Cards.entities';
+import { Card, CardActions } from '../../../entities/card';
 import { Item } from '../Item';
 import { Wrapper, Title, Header } from './Column.styled';
 

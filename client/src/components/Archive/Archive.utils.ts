@@ -1,5 +1,5 @@
-import { QueryOptions } from "react-apollo";
-import { CardState } from "../Cards/Cards.entities";
+import { QueryOptions } from 'react-apollo';
+import { CardState } from '../../entities/card';
 
 export const queryOptions: Omit<QueryOptions, 'query'> = {
   variables: {

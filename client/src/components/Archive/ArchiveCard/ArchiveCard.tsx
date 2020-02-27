@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card } from '../../Cards/Cards.entities';
+import { Card } from '../../../entities/card';
 import { Button } from '@material-ui/core';
 import { useQuery, ExecutionResult } from 'react-apollo';
 import { GET_BOARDS } from '../../../graphql/query/boards';

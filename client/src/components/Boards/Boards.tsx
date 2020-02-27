@@ -9,7 +9,7 @@ import { GET_BOARDS } from '../../graphql/query/boards';
 import { BoardsQuery } from './Boards.entities';
 import { DELETE_BOARD } from '../../graphql/mutations/board/delete';
 import { UPDATE_CARD_STATE } from '../../graphql/mutations/card/updateMany';
-import { CardState } from '../Cards/Cards.entities';
+import { CardState } from '../../entities/card';
 import { QueryMap } from '../../utils/api';
 import { Board } from './Board';
 import { StateHandler } from '../shared/getStateHandler';

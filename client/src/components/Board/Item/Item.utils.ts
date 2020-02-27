@@ -1,4 +1,4 @@
-import { CardState } from "../Cards.entities";
+import { CardState } from '../../../entities/card';
 
 export const getStatusColor = (status: CardState): string => ({
   [CardState.Open]: '#c8c8c8',

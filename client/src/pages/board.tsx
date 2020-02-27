@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cards } from '../components/Cards';
+import { Board } from '../components/Board';
 import { useRouteMatch } from 'react-router-dom';
 
 interface MatchParams {
@@ -14,7 +14,7 @@ const BoardPage: React.FC<Props> = ({ liveNotification }) => {
   const match = useRouteMatch<MatchParams>();
 
   return (
-    <Cards
+    <Board
       boardId={match.params.id}
       liveNotification={liveNotification}
     />

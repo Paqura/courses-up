@@ -1,5 +1,5 @@
 import { createCard, getCards, omitTemporaryFields } from '../card';
-import { CardState, Card, QueryCard, CardField, Priority } from '../../components/Cards/Cards.entities';
+import { CardState, Card, QueryCard, CardField, Priority } from '../../components/Board/Cards.entities';
 
 describe('createCard', () => {
   it('should create a course with received title', () => {

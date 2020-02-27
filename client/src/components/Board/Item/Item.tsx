@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, CardActions } from '../Cards.entities';
+import { Card, CardActions } from '../../../entities/card';
 import { Controls, CardItem } from './Item.styled';
 import { Button } from '@material-ui/core';
 import { Description } from '../../shared/Description';

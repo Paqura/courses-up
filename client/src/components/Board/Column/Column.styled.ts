@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { CardState } from '../Cards.entities';
+import { CardState } from '../../../entities/card';
 
 export const getHeaderStyle = (status: CardState) => ({
   [CardState.Open]: {

@@ -1,5 +1,5 @@
-import { createAction } from "@reduxjs/toolkit";
-import { FullUpdateMutationData } from "../../components/Cards/Cards.entities";
+import { createAction } from '@reduxjs/toolkit';
+import { FullUpdateMutationData } from '../../entities/card';
 
 export const PREFIX = '@forms';
 

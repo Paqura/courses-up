@@ -1,4 +1,4 @@
-import { Card, CardState, Priority } from "../components/Cards/Cards.entities";
+import { Card, CardState, Priority } from '../entities/card';
 
 export const createCard = (value: string, id: string, boardId: string): Card => ({
   id,

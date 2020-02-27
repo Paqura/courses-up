@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery, useMutation } from 'react-apollo';
 import { GET_CARDS } from '../../graphql/query/cards';
-import { CardsQuery, CardState } from '../Cards/Cards.entities';
+import { CardsQuery, CardState } from '../../entities/card';
 import { queryOptions } from './Archive.utils';
 import { ArchiveCard } from './ArchiveCard';
 import { StateHandler } from '../shared/getStateHandler';

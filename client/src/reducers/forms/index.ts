@@ -1,6 +1,6 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { updateForm, UpdateFormAction, FormName } from "../../actions/forms";
-import { FullUpdateMutationData } from "../../components/Cards/Cards.entities";
+import { createReducer } from '@reduxjs/toolkit';
+import { updateForm, UpdateFormAction, FormName } from '../../actions/forms';
+import { FullUpdateMutationData } from '../../entities/card';
 
 type UpdateFormState = {
   [key in FormName]: Partial<FullUpdateMutationData>;

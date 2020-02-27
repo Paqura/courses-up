@@ -3,7 +3,7 @@ import { EditorTitle, useStyles } from './Edit.styled';
 import { FormControl, TextField, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { useQuery } from 'react-apollo';
 import { GET_CARD } from '../../../graphql/query/card';
-import { Card, CardState, Priority, CardField } from '../Cards.entities';
+import { Card, CardState, Priority, CardField } from '../../../entities/card';
 import { StateHandler } from '../../shared/getStateHandler';
 import { connect } from 'react-redux';
 import { updateForm, FormName } from '../../../actions/forms';

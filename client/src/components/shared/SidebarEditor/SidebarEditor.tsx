@@ -4,7 +4,7 @@ import { Form } from '../Form';
 import { useStyles } from './SidebarEditor.styled';
 import { connect } from 'react-redux';
 import { RootState } from '../../../redux/configureStore';
-import { FullUpdateMutationData } from '../../Cards/Cards.entities';
+import { FullUpdateMutationData } from '../../../entities/card';
 import { ExecutionResult } from 'react-apollo';
 import { FormName } from '../../../actions/forms';
 import { getFormsByName } from '../../../selectors/formSelectors';
@@ -25,7 +25,7 @@ type Props = ReduxState & OwnProps;
 const SidebarEditor: React.FC<Props> = ({ close, children, save, formData }) => {
   const classes = useStyles();
 
-  const onSave = (evt: MouseEvent) => {
+  const onSave = async (evt: MouseEvent) => {
     evt.stopPropagation();
     // TODO show notification -> Success | Error
     save(formData).then(close);

@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
-import { CardField, CardActions, CardsQuery } from './Cards.entities';
+import { CardField, CardActions, CardsQuery } from '../../entities/card';
 import { Column } from './Column';
 import uuid from 'uuid';
 import { createCard, getCards, omitTemporaryFields } from '../../utils/card';
-import { Table } from './Cards.styled';
+import { Table } from './Board.styled';
 import { Form } from '../shared/Form';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -12,7 +12,7 @@ import { ADD_CARD } from '../../graphql/mutations/card/add';
 import { GET_CARDS } from '../../graphql/query/cards';
 import { DELETE_CARD } from '../../graphql/mutations/card/delete';
 import { QueryMap } from '../../utils/api';
-import { STATES } from './Cards.utils';
+import { STATES } from './Board.utils';
 import { StateHandler } from '../shared/getStateHandler';
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
   liveNotification(message: string): void;
 }
 
-const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
+const Board: React.FC<Props> = ({ liveNotification, boardId }) => {
   const { loading, error, data } = useQuery<CardsQuery>(GET_CARDS, {
     variables: {
       data: { boardId },
@@ -97,4 +97,4 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
   )
 };
 
-export default Cards;
+export default Board;
