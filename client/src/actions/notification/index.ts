@@ -1,4 +1,13 @@
-import { createAction } from "@reduxjs/toolkit";
+import { createAction } from '@reduxjs/toolkit';
+
+export interface NotificationPayload {
+  text: string | null;
+}
+
+export interface NotificationAction {
+  type: typeof liveNotification.type;
+  payload: NotificationPayload;
+}
 
 export const PREFIX = '@notification';
 
