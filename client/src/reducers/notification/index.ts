@@ -2,7 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 import { liveNotification, removeNotification, NotificationAction } from "../../actions/notification";
 
 interface NotificationState {
-  text: string | null,
+  text: string | null;
 }
 
 const initialState: NotificationState = {

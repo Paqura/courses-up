@@ -7,6 +7,7 @@ import { RootState } from '../../../redux/configureStore';
 import { FullUpdateMutationData } from '../../Cards/Cards.entities';
 import { ExecutionResult } from 'react-apollo';
 import { FormName } from '../../../actions/forms';
+import { getFormsByName } from '../../../selectors/formSelectors';
 
 interface ReduxState {
   formData: Partial<FullUpdateMutationData>;
@@ -26,13 +27,14 @@ const SidebarEditor: React.FC<Props> = ({ close, children, save, formData }) => 
 
   const onSave = (evt: MouseEvent) => {
     evt.stopPropagation();
-
+    // TODO show notification -> Success | Error
     save(formData).then(close);
   };
 
   return (
     <Backdrop className={classes.backdrop} open={true}>
       <Form className={classes.form}>
+
         {children}
 
         <DialogActions>
@@ -49,8 +51,8 @@ const SidebarEditor: React.FC<Props> = ({ close, children, save, formData }) => 
   )
 };
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
-  formData: state.forms[ownProps.formName],
+const mapStateToProps = (state: RootState, { formName }: OwnProps) => ({
+  formData: getFormsByName(state, formName),
 });
 
 export default connect(mapStateToProps)(SidebarEditor);
