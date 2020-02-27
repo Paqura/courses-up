@@ -6,7 +6,7 @@ import { GET_CARD } from '../graphql/query/card';
 import { Card, CardState, Priority, CardField } from '../Cards.entities';
 import { StateHandler } from '../../shared/getStateHandler';
 import { connect } from 'react-redux';
-import { updateForm } from '../../../actions/forms';
+import { updateForm, FormName } from '../../../actions/forms';
 
 interface Props {
   cardId: string;
@@ -52,7 +52,7 @@ const Edit: React.FC<Props> = ({ cardId, updateForm }) => {
       return;
     }
 
-    updateForm('card', {
+    updateForm(FormName.Card, {
       [name]: value,
     });
   };

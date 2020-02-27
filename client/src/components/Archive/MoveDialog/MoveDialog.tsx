@@ -4,8 +4,10 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FormControl, Select, MenuItem, makeStyles, Theme, createStyles, InputLabel } from '@material-ui/core';
+import { FormControl, Select, MenuItem, InputLabel } from '@material-ui/core';
 import { Board } from '../../Boards/Boards.entities';
+import { useStyles } from './MoveDialog.styled';
+import { isTypeOfString } from '../../../utils/isTypeof';
 
 interface Props {
   boards: Board[];
@@ -14,14 +16,6 @@ interface Props {
   save(id: string): void;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    formControl: {
-      minWidth: 120,
-      width: '100%',
-    },
-  }),
-);
 
 const MoveDialog: React.FC<Props> = ({ boards, close, isOpen, save }) => {
   const classes = useStyles();
@@ -30,13 +24,13 @@ const MoveDialog: React.FC<Props> = ({ boards, close, isOpen, save }) => {
   const onChange = (evt: React.ChangeEvent<{ value: unknown }>) => {
     const id = evt.target.value;
 
-    if (typeof id === 'string') {
+    if (isTypeOfString(id)) {
       setId(id);
     }
   };
 
   const onSave = () => {
-    if (typeof id === 'string') {
+    if (isTypeOfString(id)) {
       save(id);
     }
   };

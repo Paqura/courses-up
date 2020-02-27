@@ -7,19 +7,19 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 interface Props {
-  ok(): void;
   close(): void;
   description?: string;
   isOpen: boolean;
+  ok(): void;
   title: string;
 }
 
 const Modal: React.FC<Props> = ({
-  ok,
   children,
-  isOpen,
-  description,
   close,
+  description,
+  isOpen,
+  ok,
   title,
 }) => {
   return (

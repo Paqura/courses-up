@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Card, CardActions } from '../Cards.entities';
 import { Controls, CardItem } from './Item.styled';
 import { Button } from '@material-ui/core';
-import { Description } from '../Description';
-import { Title } from '../Title';
-import { AlertDialog } from '../AlertDialog';
+import { Description } from '../../shared/Description';
+import { Title } from '../../shared/Title';
+import { Modal } from '../../shared/Modal';
 import { SidebarEditor } from '../../shared/SidebarEditor';
 import { Edit } from '../Edit';
 import { useMutation } from 'react-apollo';
@@ -72,12 +72,12 @@ const Item: React.FC<Props> = ({
         priority: {item.priority}
       </span>
 
-      <AlertDialog
+      <Modal
         isOpen={isAlertOpen}
         title="Delete card"
         description="Are you sure you want to delete the card?"
+        ok={onDelete}
         close={toggleAlert}
-        agreeAction={onDelete}
       />
     </CardItem>
   );
