@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { Button } from '@material-ui/core'
-import { CREATE_BOARD } from './graphql/mutation/create';
-import { useMutation, useQuery, ExecutionResult } from 'react-apollo';
+import { CREATE_BOARD } from '../../graphql/mutations/board/create';
+import { useMutation, useQuery } from 'react-apollo';
 import uuid from 'uuid';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
-import { GET_BOARDS } from './graphql/query/boards';
+import { GET_BOARDS } from '../../graphql/query/boards';
 import { BoardsQuery } from './Boards.entities';
-import { DELETE_BOARD } from './graphql/mutation/delete';
-import { UPDATE_CARD_STATE } from './graphql/mutation/updateCardState';
+import { DELETE_BOARD } from '../../graphql/mutations/board/delete';
+import { UPDATE_CARD_STATE } from '../../graphql/mutations/card/updateMany';
 import { CardState } from '../Cards/Cards.entities';
 import { QueryMap } from '../../utils/api';
 import { Board } from './Board';

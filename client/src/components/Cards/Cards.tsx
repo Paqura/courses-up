@@ -7,11 +7,10 @@ import { Table } from './Cards.styled';
 import { Form } from '../shared/Form';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { ADD_CARD } from './graphql/mutations/addCard';
-import { GET_CARDS } from './graphql/query/cards';
-import { DELETE_CARD } from './graphql/mutations/deleteCard';
+import { ADD_CARD } from '../../graphql/mutations/card/add';
+import { GET_CARDS } from '../../graphql/query/cards';
+import { DELETE_CARD } from '../../graphql/mutations/card/delete';
 import { QueryMap } from '../../utils/api';
 import { STATES } from './Cards.utils';
 import { StateHandler } from '../shared/getStateHandler';

@@ -5,7 +5,7 @@ import { Board } from '../Boards.entities';
 import { BoardWrapper } from './Board.styled';
 import DeleteOutlineIcon from '@material-ui/icons/Menu';
 import { useMutation } from 'react-apollo';
-import { UPDATE_BOARD } from '../graphql/mutation/update';
+import { UPDATE_BOARD } from '../../../graphql/mutations/board/update';
 import { FormDialog } from '../FormDialog';
 import { QueryMap } from '../../../utils/api';
 interface Props {

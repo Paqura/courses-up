@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card } from '../../Cards/Cards.entities';
 import { Button } from '@material-ui/core';
 import { useQuery, ExecutionResult } from 'react-apollo';
-import { GET_BOARDS } from '../../Boards/graphql/query/boards';
+import { GET_BOARDS } from '../../../graphql/query/boards';
 import { StateHandler } from '../../shared/getStateHandler';
 import { BoardsQuery } from '../../Boards/Boards.entities';
 import { MoveDialog } from '../MoveDialog';

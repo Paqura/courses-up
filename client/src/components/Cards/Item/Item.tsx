@@ -8,7 +8,7 @@ import { Modal } from '../../shared/Modal';
 import { SidebarEditor } from '../../shared/SidebarEditor';
 import { Edit } from '../Edit';
 import { useMutation } from 'react-apollo';
-import { UPDATE_CARD } from '../graphql/mutations/updateCard';
+import { UPDATE_CARD } from '../../../graphql/mutations/card/update';
 import { FormName } from '../../../actions/forms';
 
 interface Props {
