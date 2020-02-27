@@ -1,9 +1,13 @@
 import React from 'react';
 import { Boards } from '../components/Boards';
 
-const BoardsPage = () => {
+interface Props {
+  liveNotification(message: string): void;
+}
+
+const BoardsPage: React.FC<Props> = ({ liveNotification }) => {
   return (
-    <Boards />
+    <Boards liveNotification={liveNotification} />
   )
 };
 

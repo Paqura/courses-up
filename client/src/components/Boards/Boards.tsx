@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button } from '@material-ui/core'
 import { CREATE_BOARD } from './graphql/mutation/create';
-import { useMutation, useQuery } from 'react-apollo';
+import { useMutation, useQuery, ExecutionResult } from 'react-apollo';
 import uuid from 'uuid';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
@@ -18,9 +18,10 @@ import { FormDialog } from './FormDialog';
 
 interface Props {
   replace(id: string): void;
+  liveNotification(message: string): void;
 }
 
-const Boards: React.FC<Props> = ({ replace }) => {
+const Boards: React.FC<Props> = ({ replace, liveNotification }) => {
   const { loading, error, data } = useQuery<BoardsQuery>(GET_BOARDS, {
     fetchPolicy: 'no-cache',
   });
@@ -50,8 +51,10 @@ const Boards: React.FC<Props> = ({ replace }) => {
         },
         boardId: { boardId },
       },
-    // TODO show notification about archiving the cards N cards moved to archive
-    }).then(console.log);
+    }).then(response => {
+      const { count } = response.data.updateManyCards;
+      liveNotification(`${count} cards was moved to archive`);
+    });
   };
 
   const deleteBoard = (id: string, boardId: string) => {
@@ -93,7 +96,6 @@ const Boards: React.FC<Props> = ({ replace }) => {
   )
 };
 
-// TODO usePush ? if exist
 const mapDispatchToProps = {
   replace: (id: string) => push(`/${id}/`),
 };

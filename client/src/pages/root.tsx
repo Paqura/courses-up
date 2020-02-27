@@ -46,7 +46,7 @@ const RootPage: React.FC<Props> = ({ message, liveNotification, removeNotificati
 
       <Switch>
         <Route path="/" exact>
-          <BoardsPage />
+          <BoardsPage liveNotification={liveNotification} />
         </Route>
 
         <Route path="/:id" exact>

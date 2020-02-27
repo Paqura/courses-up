@@ -42,6 +42,7 @@ const MoveDialog: React.FC<Props> = ({ boards, close, isOpen, save }) => {
       <DialogContent>
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor="move-select">Change The Board</InputLabel>
+
           <Select
             id="move-select"
             onChange={onChange}
