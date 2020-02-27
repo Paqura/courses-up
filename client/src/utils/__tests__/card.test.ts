@@ -1,5 +1,5 @@
 import { createCard, getCards, omitTemporaryFields } from '../card';
-import { CardState, Card, QueryCard, CardField } from '../../components/Cards/Cards.entities';
+import { CardState, Card, QueryCard, CardField, Priority } from '../../components/Cards/Cards.entities';
 
 describe('createCard', () => {
   it('should create a course with received title', () => {
@@ -16,6 +16,7 @@ describe('createCard', () => {
       description: '',
       state: CardState.Open,
       boardId: '1',
+      priority: Priority.Low,
     };
 
     expect(actual).toEqual(expected);
@@ -25,14 +26,14 @@ describe('createCard', () => {
 describe('getCards', () => {
   it('should return the courses with Open status', () => {
     const cards: Card[] = [
-      { id: '1', title: 'title1', description: 'd1', state: CardState.Open, boardId: '1' },
-      { id: '2', title: 'title2', description: 'd2', state: CardState.Progress, boardId: '1' },
-      { id: '3', title: 'title3', description: 'd3', state: CardState.Progress, boardId: '1' },
+      { id: '1', title: 'title1', description: 'd1', state: CardState.Open, boardId: '1', priority: Priority.Low, },
+      { id: '2', title: 'title2', description: 'd2', state: CardState.Progress, boardId: '1', priority: Priority.Low, },
+      { id: '3', title: 'title3', description: 'd3', state: CardState.Progress, boardId: '1', priority: Priority.Low, },
     ];
 
     const actual = getCards(cards)(CardState.Open);
 
-    const expected: Card[] = [{ id: '1', title: 'title1', description: 'd1', state: CardState.Open, boardId: '1' }];
+    const expected: Card[] = [{ id: '1', title: 'title1', description: 'd1', state: CardState.Open, boardId: '1', priority: Priority.Low, }];
 
     expect(actual).toEqual(expected);
   });
@@ -40,11 +41,26 @@ describe('getCards', () => {
 
 describe('omitTemporaryFields', () => {
   it('should return course without field from fn arg', () => {
-    const card: QueryCard = { id: '1', title: 'title1', description: 'd1', state: CardState.Open, __typename: 'Card', boardId: '1' };
+    const card: QueryCard = {
+      id: '1',
+      title: 'title1',
+      description: 'd1',
+      state: CardState.Open,
+      boardId: '1',
+      priority: Priority.Low,
+      __typename: 'Card',
+    };
 
     const actual = omitTemporaryFields(card, [CardField.id]);
 
-    const expected: Omit<QueryCard, CardField.id> = { title: 'title1', description: 'd1', state: CardState.Open,  __typename: 'Card', boardId: '1' };
+    const expected: Omit<QueryCard, CardField.id> = {
+      title: 'title1',
+      description: 'd1',
+      state: CardState.Open,
+      boardId: '1',
+      priority: Priority.Low,
+      __typename: 'Card',
+    };
 
     expect(actual).toEqual(expected)
   });

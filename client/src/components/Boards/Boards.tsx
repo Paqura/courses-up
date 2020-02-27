@@ -50,8 +50,7 @@ const Boards: React.FC<Props> = ({ replace }) => {
         },
         boardId: { boardId },
       },
-    // show notification about archiving the cards
-    // N cards moved to archive
+    // TODO show notification about archiving the cards N cards moved to archive
     }).then(console.log);
   };
 
@@ -94,6 +93,7 @@ const Boards: React.FC<Props> = ({ replace }) => {
   )
 };
 
+// TODO usePush ? if exist
 const mapDispatchToProps = {
   replace: (id: string) => push(`/${id}/`),
 };
