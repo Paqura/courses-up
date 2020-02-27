@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardActions } from '../Cards.entities';
 import { Item } from '../Item';
-import { CourseList, Title, Header } from './List.styled';
+import { Wrapper, Title, Header } from './Column.styled';
 
 interface Props {
   actions: CardActions;
@@ -9,8 +9,8 @@ interface Props {
   title: string;
 }
 
-const List: React.FC<Props> = ({ actions, items, title }) => (
-  <CourseList>
+const Column: React.FC<Props> = ({ actions, items, title }) => (
+  <Wrapper>
     <Header status={title}>
       <Title>{title}</Title>
     </Header>
@@ -22,7 +22,7 @@ const List: React.FC<Props> = ({ actions, items, title }) => (
         actions={actions}
       />
     ))}
-  </CourseList>
+  </Wrapper>
 );
 
-export default List;
+export default Column;

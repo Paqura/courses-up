@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { CardField, CardActions, CardsQuery } from './Cards.entities';
-import { List } from './List';
+import { Column } from './Column';
 import uuid from 'uuid';
 import { createCard, getCards, omitTemporaryFields } from '../../utils/card';
 import { Table } from './Cards.styled';
@@ -85,7 +85,7 @@ const Cards: React.FC<Props> = ({ liveNotification, boardId }) => {
 
       <Table>
         {STATES.map(state => (
-          <List
+          <Column
             key={state}
             title={state}
             items={getCardsByState(state)}
