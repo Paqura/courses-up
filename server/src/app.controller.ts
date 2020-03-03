@@ -1,31 +1,18 @@
-import { Controller, Get, Post } from '@nestjs/common';
-import { AppService } from './app.service';
-import { Course } from './interfaces/course.interface';
-import { config } from './config';
+
+import { Controller, Request, Post, UseGuards } from '@nestjs/common';
+import { LocalAuthGuard } from './auth/local-auth.guard';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  @UseGuards(LocalAuthGuard)
 
-  @Get()
-  getApiInfo() {
-    return `Это рутовая страница.
-      Чтобы перейти на страницу курсов ->
-      <a href="${config.API_PATH.courses}">Hello</a>
-    `;
+  @Post('auth/login')
+  async login(@Request() req) {
+    return req.user;
   }
 
-  @Get('/courses')
-  getCourses(): Course[] {
-    return this.appService.getCourses();
-  }
-
-  @Post('/courses')
-  addCourse() {
-    return this.appService.add({
-      id: '1',
-      title: 'test title',
-      description: 'test description',
-    });
+  @Post('auth/register')
+  async register(@Request() req) {
+    return req.user;
   }
 }
