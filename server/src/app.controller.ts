@@ -1,10 +1,6 @@
 import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
 import { LocalAuthGuard } from './auth/local-auth.guard';
-
-interface CreateUserDto {
-  name: string;
-  password: string;
-}
+import { CreateUserDto } from './dto';
 
 const fakeDb: CreateUserDto[] = [
   { name: 'slava', password: '123' },

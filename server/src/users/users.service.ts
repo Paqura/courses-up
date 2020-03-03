@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from 'src/dto';
 
-export type User = any;
+export type User = CreateUserDto & {
+  id: string;
+};
 
 @Injectable()
 export class UsersService {
@@ -9,28 +12,29 @@ export class UsersService {
   constructor() {
     this.users = [
       {
-        userId: 1,
-        username: 'john',
+        id: '1',
+        name: 'john',
         password: 'changeme',
       },
       {
-        userId: 2,
-        username: 'chris',
+        id: '2',
+        name: 'chris',
         password: 'secret',
       },
       {
-        userId: 3,
-        username: 'maria',
+        id: '3',
+        name: 'maria',
         password: 'guess',
       },
     ];
   }
 
   async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+    return this.users.find(user => user.name === username);
   }
 
-  async save(user: any) {
-    return user;
+  async save(user: User): Promise<User[]> {
+    this.users.push(user);
+    return this.users;
   }
 }
