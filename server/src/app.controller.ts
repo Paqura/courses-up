@@ -1,17 +1,16 @@
-
-import { Controller, Request, Post, UseGuards } from '@nestjs/common';
+import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 
-interface User {
+interface CreateUserDto {
   name: string;
   password: string;
 }
 
-const fakeDb: User[] = [
+const fakeDb: CreateUserDto[] = [
   { name: 'slava', password: '123' },
 ];
 
-const connectToDb = (): Promise<User[]> => new Promise(res => {
+const connectToDb = (): Promise<CreateUserDto[]> => new Promise(res => {
   res(fakeDb);
 });
 
@@ -20,19 +19,19 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
-    return req.body;
+    return req.user;
   }
 
   @Post('auth/register')
-  async register(@Request() req) {
+  async register(@Body() candidate: CreateUserDto) {
     const db = await connectToDb();
 
     // check
-    if (db.find(user => user.name === req.body.name)) {
+    if (db.find(user => user.name === candidate.name)) {
       return 'User already exists';
     }
 
     // save
-    return req.body;
+    return candidate;
   }
 }
