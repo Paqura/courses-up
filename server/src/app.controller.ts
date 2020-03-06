@@ -1,5 +1,4 @@
 import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
-import { LocalAuthGuard } from './auth/local-auth.guard';
 import { CreateUserDto } from './dto';
 
 const fakeDb: CreateUserDto[] = [
@@ -12,7 +11,6 @@ const connectToDb = (): Promise<CreateUserDto[]> => new Promise(res => {
 
 @Controller()
 export class AppController {
-  @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
     return req.user;
