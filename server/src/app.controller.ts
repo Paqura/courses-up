@@ -1,16 +1,11 @@
 import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
 import { CreateUserDto } from './dto';
-
-const fakeDb: CreateUserDto[] = [
-  { name: 'slava', password: '123' },
-];
-
-const connectToDb = (): Promise<CreateUserDto[]> => new Promise(res => {
-  res(fakeDb);
-});
+import { UsersService } from './users/users.service';
 
 @Controller()
 export class AppController {
+  constructor(private usersService: UsersService) {}
+
   @Post('auth/login')
   async login(@Request() req) {
     return req.user;
@@ -18,14 +13,6 @@ export class AppController {
 
   @Post('auth/register')
   async register(@Body() candidate: CreateUserDto) {
-    const db = await connectToDb();
-
-    // check
-    if (db.find(user => user.name === candidate.name)) {
-      return 'User already exists';
-    }
-
-    // save
-    return candidate;
+    return this.usersService.create(candidate);
   }
 }
