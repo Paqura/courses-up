@@ -7,7 +7,7 @@ export class AuthService {
   constructor(private readonly userService: UsersService) {}
 
   async signPayload(payload: any) {
-    return sign(payload, 'sercretKey', { expiresIn: '12h' });
+    return sign(payload, 'secretKey', { expiresIn: '12h' });
   }
 
   async validateUser(payload: any) {
