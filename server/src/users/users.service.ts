@@ -5,8 +5,6 @@ import { User } from 'src/interfaces/user.interface';
 import { CreateUserDto, LoginUserDto } from 'src/dto';
 import * as bcrypt from 'bcrypt';
 
-type CreateErrorMessage = string;
-
 @Injectable()
 export class UsersService {
   constructor(@InjectModel('User') private readonly userModel: Model<User & Document>) {}
@@ -27,7 +25,7 @@ export class UsersService {
     return candidate;
   }
 
-  async create(createCatDto: CreateUserDto): Promise<User | CreateErrorMessage> {
+  async create(createCatDto: CreateUserDto): Promise<User> {
     const candidate = await this.findOneByName(createCatDto.name);
 
     if (candidate) {
@@ -39,15 +37,12 @@ export class UsersService {
     return user;
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
-  }
-
   async findOneByName(name: string) {
     return this.userModel.findOne({ name });
   }
 
-  async remove(name: string) {
-    return this.userModel.findOneAndDelete({ name });
+  async findByPayload(payload: any) {
+    const { name } = payload;
+    return await this.userModel.findOne({ name });
   }
 }

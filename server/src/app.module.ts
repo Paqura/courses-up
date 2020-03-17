@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-// import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { DB_ENDPOINT } from './config';
 
 @Module({
   imports: [
-    // AuthModule,
+    AuthModule,
     UsersModule,
     MongooseModule.forRoot(DB_ENDPOINT),
   ],
