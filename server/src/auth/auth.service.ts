@@ -7,7 +7,7 @@ import { PayloadDto } from 'src/dto';
 export class AuthService {
   constructor(private readonly userService: UsersService) {}
 
-  async signPayload(payload: PayloadDto) {
+  async signPayload(payload: PayloadDto): Promise<string> {
     return sign(payload, 'secretKey', { expiresIn: '12h' });
   }
 

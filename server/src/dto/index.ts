@@ -11,5 +11,9 @@ export interface LoginUserDto {
 export interface PayloadDto {
   name: string;
   password: string;
-  iat?: number;
+}
+
+export interface PayloadWithExpires extends PayloadDto {
+  exp: number;
+  iat: number;
 }

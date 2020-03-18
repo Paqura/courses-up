@@ -39,7 +39,7 @@ export class AuthController {
       password: user.password,
     };
 
-    const token = this.authService.signPayload(payload);
+    const token = await this.authService.signPayload(payload);
     return { user, token };
   }
 }
