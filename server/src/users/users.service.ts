@@ -7,7 +7,10 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private readonly userModel: Model<User & Document>) {}
+  constructor(
+    @InjectModel('User')
+    private readonly userModel: Model<User & Document>,
+  ) {}
 
   async login(userDto: LoginUserDto) {
     const candidate = await this.findOneByName(userDto.name);
