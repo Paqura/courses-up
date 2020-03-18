@@ -1,9 +1,9 @@
+import * as bcrypt from 'bcrypt';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Document, Model } from 'mongoose';
 import { User } from 'src/interfaces/user.interface';
-import { CreateUserDto, LoginUserDto } from 'src/dto';
-import * as bcrypt from 'bcrypt';
+import { CreateUserDto, LoginUserDto, PayloadDto } from 'src/dto';
 
 @Injectable()
 export class UsersService {
@@ -44,7 +44,7 @@ export class UsersService {
     return this.userModel.findOne({ name });
   }
 
-  async findByPayload(payload: any) {
+  async findByPayload(payload: PayloadDto) {
     const { name } = payload;
     return await this.userModel.findOne({ name });
   }
