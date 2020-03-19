@@ -7,25 +7,19 @@ import { Archive } from '../components/Archive';
 import BoardsPage from './boards';
 import BoardPage from './board';
 import { getNotificationText } from '../selectors/notification';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { liveNotification, removeNotification } from '../actions/notification';
 import { Snackbar } from '@material-ui/core';
 
 const TIME_TO_HIDE_MESSAGE = 6000;
 
-interface ReduxState {
-  message: string | null;
-}
-
-interface DispatchableActions {
-  liveNotification(message: string): void;
-  removeNotification(): void;
-}
-
-type Props = ReduxState & DispatchableActions;
-
-const RootPage: React.FC<Props> = ({ message, liveNotification, removeNotification }) => {
+const RootPage: React.FC = () => {
+  const message = useSelector((state: RootState) => getNotificationText(state));
   const [isShownNotification, setIsShowNotification] = useState(false);
+
+  const dispatch = useDispatch();
+  const notify = (message: string) => dispatch(liveNotification(message));
+  const notifyEnd = () => dispatch(removeNotification());
 
   useEffect(() => {
     setIsShowNotification(Boolean(message));
@@ -37,7 +31,7 @@ const RootPage: React.FC<Props> = ({ message, liveNotification, removeNotificati
 
   const hideNotification = () => {
     setIsShowNotification(false);
-    removeNotification();
+    notifyEnd();
   };
 
   return (
@@ -46,15 +40,15 @@ const RootPage: React.FC<Props> = ({ message, liveNotification, removeNotificati
 
       <Switch>
         <Route path="/" exact>
-          <BoardsPage liveNotification={liveNotification} />
+          <BoardsPage liveNotification={notify} />
         </Route>
 
         <Route path="/:id" exact>
-          <BoardPage liveNotification={liveNotification} />
+          <BoardPage liveNotification={notify} />
         </Route>
 
         <Route path="/archive/boards" exact>
-          <Archive liveNotification={liveNotification} />
+          <Archive liveNotification={notify} />
         </Route>
       </Switch>
 
@@ -72,14 +66,4 @@ const RootPage: React.FC<Props> = ({ message, liveNotification, removeNotificati
   );
 };
 
-
-const mapStateToProps = (state: RootState) => ({
-  message: getNotificationText(state),
-});
-
-const mapDispatchToProps = {
-  removeNotification,
-  liveNotification,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RootPage);
+export default RootPage;
