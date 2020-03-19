@@ -9,12 +9,16 @@ type UpdateFormState = {
 const initialState = {} as UpdateFormState;
 
 export const formReducer = createReducer(initialState, {
-  [updateForm.type]: (state, action: UpdateFormAction) => ({
-    ...state,
+  [updateForm.type]: (state, { payload }: UpdateFormAction) => {
+    const { name, fields } = payload;
 
-    [action.payload.name]: {
-      ...state[action.payload.name],
-      ...action.payload.fields,
-    },
-  }),
+    return {
+      ...state,
+
+      [name]: {
+        ...state[name],
+        ...fields,
+      },
+    };
+  },
 });

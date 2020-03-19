@@ -1,8 +1,17 @@
 import React from 'react';
 import { Header, List, ListItem, Linker } from './Menu.styled';
 import { MENU_ITEMS } from './Menu.utils';
+import { useLocation } from 'react-router-dom';
 
-const Menu = () => {
+const inactiveRoutes = ['register', 'login'].map(path => `/${path}`);
+
+const Menu: React.FC = () => {
+  const { pathname } = useLocation();
+
+  if (inactiveRoutes.includes(pathname)) {
+    return null;
+  }
+
   return (
     <Header>
       <nav>

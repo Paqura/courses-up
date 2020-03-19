@@ -5,8 +5,8 @@ export interface NotificationPayload {
 }
 
 export interface NotificationAction {
-  type: typeof liveNotification.type;
   payload: NotificationPayload;
+  type: typeof liveNotification.type;
 }
 
 export const PREFIX = '@notification';

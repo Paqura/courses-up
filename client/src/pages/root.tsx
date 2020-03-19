@@ -10,6 +10,7 @@ import { getNotificationText } from '../selectors/notification';
 import { useDispatch, useSelector } from 'react-redux';
 import { liveNotification, removeNotification } from '../actions/notification';
 import { Snackbar } from '@material-ui/core';
+import RegisterPage from './register';
 
 const TIME_TO_HIDE_MESSAGE = 6000;
 
@@ -39,6 +40,10 @@ const RootPage: React.FC = () => {
       <Menu />
 
       <Switch>
+        <Route path="/register">
+          <RegisterPage />
+        </Route>
+
         <Route path="/" exact>
           <BoardsPage liveNotification={notify} />
         </Route>

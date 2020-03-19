@@ -9,8 +9,8 @@ export enum FormName {
   Card = 'card',
 };
 export interface UpdateFormPayload {
-  name: FormName;
   fields: Fields;
+  name: FormName;
 }
 
 export interface UpdateFormAction {
