@@ -14,9 +14,9 @@ import { Snackbar } from '@material-ui/core';
 const TIME_TO_HIDE_MESSAGE = 6000;
 
 const RootPage: React.FC = () => {
-  const message = useSelector((state: RootState) => getNotificationText(state));
   const [isShownNotification, setIsShowNotification] = useState(false);
 
+  const message = useSelector((state: RootState) => getNotificationText(state));
   const dispatch = useDispatch();
   const notify = (message: string) => dispatch(liveNotification(message));
   const notifyEnd = () => dispatch(removeNotification());
