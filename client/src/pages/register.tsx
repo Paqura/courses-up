@@ -1,12 +1,9 @@
 import React from 'react';
-import { GoBack } from '../components/shared/GoBack';
+import { Register } from '../components/Register';
 
 const RegisterPage = () => {
   return (
-    <>
-      <GoBack />
-      <div>Register page</div>
-    </>
+    <Register />
   );
 };
 
