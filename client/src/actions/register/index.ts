@@ -2,16 +2,50 @@ import { createAction } from '@reduxjs/toolkit';
 
 export const PREFIX = '@register';
 
-interface RegisterPayload {
+// REQUEST -------------------------------------------------------
+
+interface RegisterRequestPayload {
   name: string;
   password: string;
 }
 
-export interface RegisterFormAction {
-  payload: RegisterPayload;
-  type: typeof registerForm.type;
+export interface RegisterFormRequestAction {
+  payload: RegisterRequestPayload;
+  type: typeof registerFormRequest.type;
 }
 
-export const registerForm = createAction(`${PREFIX}/REQUEST`, (payload: RegisterPayload) => ({
+export const registerFormRequest = createAction(`${PREFIX}/REQUEST`, (payload: RegisterRequestPayload) => ({
   payload,
 }));
+
+// SUCCESS --------------------------------------------------------
+
+interface RegisterSuccessPayload {
+  user: any; // TODO type this
+  token: string;
+}
+
+export interface RegisterFormSuccessAction {
+  payload: RegisterSuccessPayload;
+  type: typeof registerFormSuccess.type;
+}
+
+export const registerFormSuccess = createAction(`${PREFIX}/SUCCESS`, (payload: RegisterSuccessPayload) => ({
+  payload,
+}));
+
+// FAILURE --------------------------------------------------------
+
+interface RegisterFailurePayload {
+  error: null | string;
+}
+
+export interface RegisterFormFailureAction {
+  payload: RegisterFailurePayload;
+  type: typeof registerFormFailure.type;
+}
+
+export const registerFormFailure = createAction(`${PREFIX}/FAILURE`, (payload: RegisterFailurePayload) => ({
+  payload,
+}));
+

@@ -4,6 +4,9 @@ import { useHistory } from 'react-router-dom'
 import { Form } from '../shared/Form';
 import { TextField } from '@material-ui/core';
 import { isTypeOfString } from '../../utils/isTypeof';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerFormRequest } from '../../actions/register';
+import { RootState } from '../../redux/configureStore';
 
 // TODO add validation
 
@@ -15,17 +18,25 @@ interface RegisterData {
 const Register = () => {
   const { goBack } = useHistory();
 
+  const { isLoggedIn } = useSelector((state: RootState) => state.session);
+
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const dispatch = useDispatch();
 
   const register = () => {
     const name = nameRef.current?.value;
     const password = passwordRef.current?.value;
 
     if (isTypeOfString(name) && isTypeOfString(password)) {
-      // registerRequest -> to server request
+      dispatch(registerFormRequest({ name, password }));
     }
   };
+
+  if (isLoggedIn) {
+    goBack();
+  }
 
   return (
     <div>
