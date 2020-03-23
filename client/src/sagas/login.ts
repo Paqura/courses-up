@@ -23,6 +23,8 @@ function* loginRequest(action: LoginFormRequestAction) {
     }
 
     yield put(loginFormSuccess(response));
+
+    window.localStorage.setItem('authKey', response.token);
   } catch (error) {
     yield put(loginFormFailure({ error: error.message ?? error }));
   }
