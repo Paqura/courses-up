@@ -1,13 +1,14 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { registerFormRequest, registerFormSuccess } from "../../actions/register";
+import { registerFormRequest, registerFormSuccess, RegisterFormSuccessAction } from "../../actions/register";
 
-interface User {
+interface SessionUser {
   name: string;
+  token: string;
 }
 
 interface Session {
   error: null | string;
-  user: null | User;
+  user: null | SessionUser;
   isLoggedIn: boolean;
 }
 
@@ -18,7 +19,7 @@ const initialState: Session = {
 };
 
 export const sessionReducer = createReducer(initialState, {
-  [registerFormRequest.type]: (state, action) => {
+  [registerFormRequest.type]: (state) => {
     return {
       ...state,
       error: null,
@@ -26,7 +27,7 @@ export const sessionReducer = createReducer(initialState, {
     };
   },
 
-  [registerFormSuccess.type]: (state, action) => {
+  [registerFormSuccess.type]: (state, action: RegisterFormSuccessAction) => {
     return {
       ...state,
       user: {

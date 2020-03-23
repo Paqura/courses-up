@@ -1,4 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
+import { User } from '../../entities/user';
 
 export const PREFIX = '@register';
 
@@ -21,7 +22,7 @@ export const registerFormRequest = createAction(`${PREFIX}/REQUEST`, (payload: R
 // SUCCESS --------------------------------------------------------
 
 interface RegisterSuccessPayload {
-  user: any; // TODO type this
+  user: User;
   token: string;
 }
 
