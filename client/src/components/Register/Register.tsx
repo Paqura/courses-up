@@ -6,7 +6,7 @@ import { TextField } from '@material-ui/core';
 import { isTypeOfString } from '../../utils/isTypeof';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerFormRequest } from '../../actions/register';
-import { RootState } from '../../redux/configureStore';
+import { selectSession } from '../../selectors/session';
 
 // TODO add validation
 
@@ -18,7 +18,7 @@ interface RegisterData {
 const Register = () => {
   const { goBack } = useHistory();
 
-  const { isLoggedIn } = useSelector((state: RootState) => state.session);
+  const { isLoggedIn } = useSelector(selectSession);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
