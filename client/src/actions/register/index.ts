@@ -37,7 +37,7 @@ export const registerFormSuccess = createAction(`${PREFIX}/SUCCESS`, (payload: R
 
 // FAILURE --------------------------------------------------------
 
-interface RegisterFailurePayload {
+export interface RegisterFailurePayload {
   error: null | string;
 }
 
