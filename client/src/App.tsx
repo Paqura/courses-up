@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { store } from './redux/configureStore';
 
@@ -11,17 +11,6 @@ const client = new ApolloClient({
 });
 
 const App: React.FC = () => {
-  useEffect(() => {
-    const response = fetch('http://localhost:8001/auth', {
-      method: 'GET',
-      headers: new Headers({
-        authorization: `Bearer ${window.localStorage.getItem('authKey')}`
-      })
-    })
-      .then(resp => resp.json())
-      .then(console.log)
-  }, []);
-
   return (
     <ApolloProvider client={client}>
       <Provider store={store}>

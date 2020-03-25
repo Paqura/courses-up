@@ -49,3 +49,13 @@ export interface LoginFormFailureAction {
 export const loginFormFailure = createAction(`${PREFIX}/FAILURE`, (payload: LoginFailurePayload) => ({
   payload,
 }));
+
+// AUTH ------------------------------------------------------------
+
+export interface AuthorizationAction {
+  type: typeof checkAuth.type;
+}
+
+export const checkAuth = createAction(`${PREFIX}/AUTH`, (payload: any) => ({
+  payload,
+}));

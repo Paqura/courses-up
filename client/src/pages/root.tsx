@@ -12,6 +12,7 @@ import { liveNotification, removeNotification } from '../actions/notification';
 import { Snackbar } from '@material-ui/core';
 import RegisterPage from './register';
 import LoginPage from './login';
+import { checkAuth } from '../actions/login';
 
 const TIME_TO_HIDE_MESSAGE = 6000;
 
@@ -22,6 +23,10 @@ const RootPage: React.FC = () => {
   const dispatch = useDispatch();
   const notify = (message: string) => dispatch(liveNotification(message));
   const notifyEnd = () => dispatch(removeNotification());
+
+  useEffect(() => {
+    dispatch(checkAuth({ title: "AUTH" }));
+  }, []);
 
   useEffect(() => {
     setIsShowNotification(Boolean(message));
