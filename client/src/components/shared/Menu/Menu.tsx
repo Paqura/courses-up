@@ -5,18 +5,25 @@ import { useLocation } from 'react-router-dom';
 
 const inactiveRoutes = ['register', 'login'].map(path => `/${path}`);
 
-const Menu: React.FC = () => {
+interface Props {
+  isAuth: boolean;
+}
+
+const Menu: React.FC<Props> = ({ isAuth }) => {
   const { pathname } = useLocation();
 
   if (inactiveRoutes.includes(pathname)) {
     return null;
   }
 
+  const FILTERED_MENU_ITEMS = MENU_ITEMS
+    .filter(item => !(isAuth && ['login', 'register'].includes(item.title.toLocaleLowerCase())));
+
   return (
     <Header>
       <nav>
         <List>
-          {MENU_ITEMS.map(item => (
+          {FILTERED_MENU_ITEMS.map(item => (
             <ListItem key={item.title}>
               <Linker to={item.to}>{item.title}</Linker>
             </ListItem>

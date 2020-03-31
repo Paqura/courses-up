@@ -13,11 +13,14 @@ import { Snackbar } from '@material-ui/core';
 import RegisterPage from './register';
 import LoginPage from './login';
 import { checkAuth } from '../actions/login';
+import { selectSession } from '../selectors/session';
 
 const TIME_TO_HIDE_MESSAGE = 6000;
 
 const RootPage: React.FC = () => {
   const [isShownNotification, setIsShowNotification] = useState(false);
+
+  const { isLoggedIn } = useSelector((state: RootState) => selectSession(state))
 
   const message = useSelector((state: RootState) => getNotificationText(state));
   const dispatch = useDispatch();
@@ -44,7 +47,7 @@ const RootPage: React.FC = () => {
 
   return (
     <Router history={history}>
-      <Menu />
+      <Menu isAuth={isLoggedIn} />
 
       <Switch>
         <Route path="/register">

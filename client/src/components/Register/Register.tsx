@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { Modal } from '../shared/Modal'
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+import { push } from 'connected-react-router';
 import { Form } from '../shared/Form';
 import { TextField } from '@material-ui/core';
 import { isTypeOfString } from '../../utils/isTypeof';
@@ -18,7 +19,7 @@ interface RegisterData {
 const Register = () => {
   const { goBack } = useHistory();
 
-  const { isLoggedIn } = useSelector(selectSession);
+  const { hasRegister } = useSelector(selectSession);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -34,8 +35,8 @@ const Register = () => {
     }
   };
 
-  if (isLoggedIn) {
-    goBack();
+  if (hasRegister) {
+    dispatch(push('/login'));
   }
 
   return (

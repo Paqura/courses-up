@@ -3,6 +3,7 @@ import { Modal } from '../shared/Modal'
 import { useHistory } from 'react-router-dom'
 import { Form } from '../shared/Form';
 import { TextField } from '@material-ui/core';
+import { push } from 'connected-react-router';
 import { isTypeOfString } from '../../utils/isTypeof';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginFormRequest } from '../../actions/login';
@@ -28,7 +29,7 @@ const Login = () => {
   };
 
   if (isLoggedIn) {
-    goBack();
+    dispatch(push('/'))
   }
 
   return (
