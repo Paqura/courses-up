@@ -21,12 +21,13 @@ const RootPage: React.FC = () => {
 
   const message = useSelector((state: RootState) => getNotificationText(state));
   const dispatch = useDispatch();
+
   const notify = (message: string) => dispatch(liveNotification(message));
   const notifyEnd = () => dispatch(removeNotification());
 
   useEffect(() => {
     dispatch(checkAuth({ title: "AUTH" }));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setIsShowNotification(Boolean(message));
