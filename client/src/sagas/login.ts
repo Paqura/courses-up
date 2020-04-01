@@ -1,7 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import {
-  AuthorizationAction,
-  checkAuth,
   loginFormRequest,
   LoginFormRequestAction,
   loginFormSuccess,
@@ -39,36 +37,4 @@ function* loginRequest(action: LoginFormRequestAction) {
 
 export function* watchLoginRequest() {
   yield takeEvery(loginFormRequest.type, loginRequest);
-}
-
-const reqToAuth = async () => {
-  const response = await fetch('http://localhost:8001/auth', {
-      method: 'GET',
-      headers: new Headers({
-        authorization: `Bearer ${window.localStorage.getItem('authKey')}`
-      })
-    });
-
-  const json = await response.json();
-  return json;
-}
-
-function* checkAuthRequest(action: AuthorizationAction) {
-  const result = yield call(reqToAuth);
-
-  if (result.statusCode === 401) {
-    yield put({
-      type: 'LOGIN/AUTH_FAILED',
-      payload: result.message,
-      })
-  } else {
-    yield put({
-      type: 'LOGIN/AUTH_SUCCESS',
-      payload: 'GOOOOOD',
-    })
-  }
-}
-
-export function* watchAuthRequest() {
-  yield takeEvery(checkAuth.type, checkAuthRequest);
 }

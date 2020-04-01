@@ -12,7 +12,7 @@ import { liveNotification, removeNotification } from '../actions/notification';
 import { Snackbar } from '@material-ui/core';
 import RegisterPage from './register';
 import LoginPage from './login';
-import { checkAuth } from '../actions/session/login';
+import { checkAuthRequest } from '../actions/session/auth';
 import { selectSession } from '../selectors/session';
 
 const TIME_TO_HIDE_MESSAGE = 6000;
@@ -29,7 +29,7 @@ const RootPage: React.FC = () => {
   const notifyEnd = () => dispatch(removeNotification());
 
   useEffect(() => {
-    dispatch(checkAuth({ title: "AUTH" }));
+    dispatch(checkAuthRequest());
   }, [dispatch]);
 
   useEffect(() => {
@@ -50,13 +50,8 @@ const RootPage: React.FC = () => {
       <Menu isAuth={isLoggedIn} />
 
       <Switch>
-        <Route path="/register">
-          <RegisterPage />
-        </Route>
-
-        <Route path="/login">
-          <LoginPage />
-        </Route>
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/login" component={LoginPage} />
 
         <Route path="/" exact>
           <BoardsPage liveNotification={notify} />

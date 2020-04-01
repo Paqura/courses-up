@@ -36,7 +36,7 @@ const initialState: Session = {
 };
 
 
-export const sessionReducer = createReducer(initialState, {
+export const registerReducer = createReducer(initialState, {
   [registerFormRequest.type]: state => {
     return {
       ...state,
@@ -61,12 +61,16 @@ export const sessionReducer = createReducer(initialState, {
     return {
       ...state,
       user: null,
+      // TODO обработатоть нормально
+      error: action.payload as any,
       isLoggedIn: false,
       hasRegister: false,
       isLoading: false,
     };
   },
+});
 
+export const loginReducer = createReducer(initialState, {
   [loginFormRequest.type]: state => {
     return {
       ...state,
@@ -98,4 +102,8 @@ export const sessionReducer = createReducer(initialState, {
       user: null,
     };
   },
-});
+})
+
+
+// Вынести редьюсеры в отдельные файлы
+export const sessionReducer = Object.assign(loginReducer, registerReducer);
