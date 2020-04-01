@@ -5,14 +5,14 @@ import {
   RegisterFormSuccessAction,
   registerFormFailure,
   RegisterFormFailureAction,
-} from "../../actions/register";
+} from "../../actions/session/register";
 import {
   loginFormRequest,
   loginFormSuccess,
   loginFormFailure,
   LoginFormFailureAction,
   LoginFormSuccessAction,
-} from "../../actions/login";
+} from "../../actions/session/login";
 
 interface SessionUser {
   name: string;

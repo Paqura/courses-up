@@ -12,7 +12,7 @@ import { liveNotification, removeNotification } from '../actions/notification';
 import { Snackbar } from '@material-ui/core';
 import RegisterPage from './register';
 import LoginPage from './login';
-import { checkAuth } from '../actions/login';
+import { checkAuth } from '../actions/session/login';
 import { selectSession } from '../selectors/session';
 
 const TIME_TO_HIDE_MESSAGE = 6000;

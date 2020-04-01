@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { registerFormRequest, RegisterFormRequestAction, registerFormSuccess, registerFormFailure } from '../actions/register';
+import { registerFormRequest, RegisterFormRequestAction, registerFormSuccess, registerFormFailure } from '../actions/session/register';
 
 async function reqToServer(data: any) {
   return await fetch('http://localhost:8001/auth/register', {

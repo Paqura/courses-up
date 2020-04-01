@@ -6,7 +6,7 @@ import { Form } from '../shared/Form';
 import { TextField } from '@material-ui/core';
 import { isTypeOfString } from '../../utils/isTypeof';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerFormRequest } from '../../actions/register';
+import { registerFormRequest } from '../../actions/session/register';
 import { selectSession } from '../../selectors/session';
 
 // TODO add validation

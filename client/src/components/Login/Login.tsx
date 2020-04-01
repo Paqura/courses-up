@@ -6,7 +6,7 @@ import { TextField } from '@material-ui/core';
 import { push } from 'connected-react-router';
 import { isTypeOfString } from '../../utils/isTypeof';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginFormRequest } from '../../actions/login';
+import { loginFormRequest } from '../../actions/session/login';
 import { selectSession } from '../../selectors/session';
 
 const Login = () => {

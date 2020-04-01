@@ -6,7 +6,7 @@ import {
   LoginFormRequestAction,
   loginFormSuccess,
   loginFormFailure,
-} from '../actions/login';
+} from '../actions/session/login';
 
 async function reqToServer(data: any) {
   return await fetch('http://localhost:8001/auth/login', {
