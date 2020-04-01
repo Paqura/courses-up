@@ -12,12 +12,14 @@ import { selectSession } from '../../selectors/session';
 const Login = () => {
   const { goBack } = useHistory();
 
-  const { isLoggedIn } = useSelector(selectSession);
+  const { isLoggedIn, isLoading } = useSelector(selectSession);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
+
+  const redirectToDashboard = () => dispatch(push('/'));
 
   const login = () => {
     const name = nameRef.current?.value;
@@ -29,7 +31,7 @@ const Login = () => {
   };
 
   if (isLoggedIn) {
-    dispatch(push('/'))
+    redirectToDashboard();
   }
 
   return (
@@ -39,6 +41,7 @@ const Login = () => {
         title="Login"
         ok={login}
         close={goBack}
+        isLoading={isLoading}
       >
         <Form>
           <TextField

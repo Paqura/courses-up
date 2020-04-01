@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 interface Props {
   close(): void;
   description?: string;
+  isLoading?: boolean;
   isOpen: boolean;
   ok(): void;
   title: string;
@@ -21,6 +22,7 @@ const Modal: React.FC<Props> = ({
   isOpen,
   ok,
   title,
+  isLoading = false,
 }) => {
   return (
     <div>
@@ -39,11 +41,11 @@ const Modal: React.FC<Props> = ({
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={close} color="secondary">
+          <Button onClick={close} color="secondary" disabled={isLoading}>
             Cancel
           </Button>
 
-          <Button onClick={ok} color="primary" autoFocus>
+          <Button onClick={ok} color="primary" autoFocus disabled={isLoading}>
             Agree
           </Button>
         </DialogActions>

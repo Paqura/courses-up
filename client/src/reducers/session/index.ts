@@ -22,6 +22,7 @@ interface SessionUser {
 interface Session {
   error: null | string;
   hasRegister: boolean;
+  isLoading: boolean;
   isLoggedIn: boolean;
   user: null | SessionUser;
 }
@@ -29,6 +30,7 @@ interface Session {
 const initialState: Session = {
   error: null,
   hasRegister: false,
+  isLoading: false,
   isLoggedIn: false,
   user: null,
 };
@@ -39,8 +41,7 @@ export const sessionReducer = createReducer(initialState, {
     return {
       ...state,
       error: null,
-      isLoggedIn: false,
-      hasRegister: false,
+      isLoading: true,
     };
   },
 
@@ -52,7 +53,7 @@ export const sessionReducer = createReducer(initialState, {
         token: action.payload.token,
       },
       hasRegister: true,
-      isLoggedIn: false,
+      isLoading: false,
     };
   },
 
@@ -62,6 +63,7 @@ export const sessionReducer = createReducer(initialState, {
       user: null,
       isLoggedIn: false,
       hasRegister: false,
+      isLoading: false,
     };
   },
 
@@ -70,6 +72,7 @@ export const sessionReducer = createReducer(initialState, {
       ...state,
       error: null,
       isLoggedIn: false,
+      isLoading: true,
     };
   },
 
@@ -80,6 +83,8 @@ export const sessionReducer = createReducer(initialState, {
         ...action.payload.user,
         token: action.payload.token,
       },
+
+      isLoading: false,
       isLoggedIn: true,
     };
   },
@@ -88,8 +93,9 @@ export const sessionReducer = createReducer(initialState, {
     return {
       ...state,
       error: action.payload.error,
-      user: null,
+      isLoading: false,
       isLoggedIn: false,
+      user: null,
     };
   },
 });

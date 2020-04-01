@@ -19,12 +19,14 @@ interface RegisterData {
 const Register = () => {
   const { goBack } = useHistory();
 
-  const { hasRegister } = useSelector(selectSession);
+  const { hasRegister, isLoading } = useSelector(selectSession);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
+
+  const redirectToLogin = () => dispatch(push('/login'));
 
   const register = () => {
     const name = nameRef.current?.value;
@@ -36,7 +38,7 @@ const Register = () => {
   };
 
   if (hasRegister) {
-    dispatch(push('/login'));
+    redirectToLogin();
   }
 
   return (
@@ -46,6 +48,7 @@ const Register = () => {
         title="Register"
         ok={register}
         close={goBack}
+        isLoading={isLoading}
       >
         <Form>
           <TextField
