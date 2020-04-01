@@ -1,8 +1,10 @@
-import { Controller, Get, UseGuards, Post, Body } from '@nestjs/common';
+import { Controller, Get, UseGuards, Post, Body, Req } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { LoginUserDto, CreateUserDto } from '../dto';
+import { Request } from 'express';
+import { User } from 'src/interfaces/user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -13,8 +15,8 @@ export class AuthController {
 
   @Get()
   @UseGuards(AuthGuard('jwt'))
-  async tempAuth() {
-    return { auth: 'works' };
+  async tempAuth(@Req() req: Request & { user: User }) {
+    return req.user;
   }
 
   @Post('login')
