@@ -1,9 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { checkAuthRequest, checkAuthSuccess, checkAuthFailure } from '../actions/session/auth';
 import { getAuthToken } from '../utils/session';
+import { config } from '../config';
 
 const reqToAuth = async () => {
-  const response = await fetch('http://localhost:8001/auth', {
+  const response = await fetch(`${config.BASE_URL}/auth`, {
       method: 'GET',
       headers: new Headers({
         authorization: `Bearer ${getAuthToken()}`

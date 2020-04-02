@@ -5,9 +5,10 @@ import {
   loginFormSuccess,
   loginFormFailure,
 } from '../actions/session/login';
+import { config } from '../config';
 
 async function reqToServer(data: any) {
-  return await fetch('http://localhost:8001/auth/login', {
+  return await fetch(`${config.BASE_URL}/login`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: new Headers({

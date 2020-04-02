@@ -1,8 +1,9 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { registerFormRequest, RegisterFormRequestAction, registerFormSuccess, registerFormFailure } from '../actions/session/register';
+import { config } from '../config';
 
 async function reqToServer(data: any) {
-  return await fetch('http://localhost:8001/auth/register', {
+  return await fetch(`${config.BASE_URL}/auth/register`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: new Headers({
